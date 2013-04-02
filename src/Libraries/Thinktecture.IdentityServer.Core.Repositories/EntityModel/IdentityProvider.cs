@@ -26,5 +26,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
         public int? OAuth2ProviderType { get; set; }
 
         public bool Enabled { get; set; }
+
+        public string Realm { get; set; }
     }
 }

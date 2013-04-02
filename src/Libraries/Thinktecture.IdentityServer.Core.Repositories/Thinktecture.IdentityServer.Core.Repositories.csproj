@@ -127,6 +127,10 @@
     <Compile Include="Migrations.SqlCe\201303212122270_AdfsIntegration.Designer.cs">
       <DependentUpon>201303212122270_AdfsIntegration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations.SqlCe\201304021636224_HrdExtensions.cs" />
+    <Compile Include="Migrations.SqlCe\201304021636224_HrdExtensions.Designer.cs">
+      <DependentUpon>201304021636224_HrdExtensions.cs</DependentUpon>
+    </Compile>
     <Compile Include="NullCacheRepository.cs" />
     <Compile Include="PassThruTransformationRuleRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -180,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations.SqlCe\201303212122270_AdfsIntegration.resx">
       <DependentUpon>201303212122270_AdfsIntegration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations.SqlCe\201304021636224_HrdExtensions.resx">
+      <DependentUpon>201304021636224_HrdExtensions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\IdentityProviderRepository.fr.resx">
       <DependentUpon>IdentityProviderRepository.resx</DependentUpon>

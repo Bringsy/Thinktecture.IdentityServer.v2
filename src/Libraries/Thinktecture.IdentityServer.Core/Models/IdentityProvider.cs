@@ -29,6 +29,11 @@ namespace Thinktecture.IdentityServer.Models
         public bool ShowInHrdSelection { get; set; }
 
         [Required]
+        [Display(ResourceType = typeof(Resources.Models.RelyingParty), Name = "Realm", Description = "RealmDescription")]
+        [AbsoluteUri]
+        public Uri Realm { get; set; }
+
+        [Required]
         [UIHint("Enum")]
         [Display(Order = 5, ResourceType = typeof (Resources.Models.IdentityProvider), Name = "Type", Description = "TypeDescription")]
         public Models.IdentityProviderTypes Type { get; set; }
