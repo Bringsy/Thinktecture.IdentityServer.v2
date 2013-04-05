@@ -155,17 +155,17 @@ namespace Thinktecture.IdentityServer.Protocols.WSFederation
                 "http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider",
                 ClaimTypes.AuthenticationInstant
             };
-            
+
             foreach (var toRemove in claimsToRemove)
             {
                 var tmp = claims.Find(x => x.Type == toRemove);
                 if (tmp != null) claims.Remove(tmp);
             }
-            
+
             claims.Add(new Claim(Constants.Claims.IdentityProvider, ip.Name, ClaimValueTypes.String, Constants.InternalIssuer));
             var id = new ClaimsIdentity(claims, "OAuth");
             var cp = new ClaimsPrincipal(id);
-            
+
             return ProcessOAuthResponse(cp, ctx);
         }
         #endregion
@@ -354,7 +354,7 @@ namespace Thinktecture.IdentityServer.Protocols.WSFederation
 
             return null;
         }
-        
+
         IEnumerable<IdentityProvider> GetEnabledWSIdentityProviders()
         {
             return IdentityProviderRepository.GetAll().Where(
@@ -365,6 +365,16 @@ namespace Thinktecture.IdentityServer.Protocols.WSFederation
         {
             return IdentityProviderRepository.GetAll().Where(
                 x => x.Enabled && x.ShowInHrdSelection);
+        }
+
+        IEnumerable<IdentityProvider> GetVisibleIdentityProvidersByRealm(string realm)
+        {
+
+            var providers = IdentityProviderRepository.GetAll(); 
+
+            return IdentityProviderRepository.GetAll().Where(
+                x => x.Enabled && x.ShowInHrdSelection
+                && (x.Realm == null || realm.Equals( x.Realm.ToString(), StringComparison.InvariantCultureIgnoreCase)));
         }
 
         private ClaimsPrincipal ValidateToken(SecurityToken token)
@@ -386,7 +396,7 @@ namespace Thinktecture.IdentityServer.Protocols.WSFederation
 
         private ActionResult ShowHomeRealmSelection(SignInRequestMessage message)
         {
-            var idps = GetVisibleIdentityProviders();
+            var idps = GetVisibleIdentityProvidersByRealm(message.Realm);
             if (idps.Count() == 1)
             {
                 var ip = idps.First();
@@ -414,7 +424,7 @@ namespace Thinktecture.IdentityServer.Protocols.WSFederation
         }
         #endregion
 
-       
+
 
         #endregion
 
