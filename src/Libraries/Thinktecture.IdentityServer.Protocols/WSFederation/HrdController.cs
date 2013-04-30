@@ -143,7 +143,7 @@ namespace Thinktecture.IdentityServer.Protocols.WSFederation
         public async Task<ActionResult> OAuthTokenCallback()
         {
             var ctx = GetOAuthContextCookie();
-            var ip = GetVisibleIdentityProviders().Single(x => x.ID == ctx.IdP);
+            var ip = GetEnabledOAuthIdentityProviders().Single(x => x.ID == ctx.IdP);
 
             var oauth2 = new OAuth2Client(GetProviderTypeFromOAuthProfileTypes(ip.ProviderType.Value), ip.ClientID, ip.ClientSecret);
             var result = await oauth2.ProcessCallbackAsync();
@@ -359,6 +359,11 @@ namespace Thinktecture.IdentityServer.Protocols.WSFederation
         {
             return IdentityProviderRepository.GetAll().Where(
                 x => x.Enabled && x.Type == IdentityProviderTypes.WSStar);
+        }
+        IEnumerable<IdentityProvider> GetEnabledOAuthIdentityProviders()
+        {
+            return IdentityProviderRepository.GetAll().Where(
+                x => x.Enabled && x.Type == IdentityProviderTypes.OAuth2);
         }
 
         IEnumerable<IdentityProvider> GetVisibleIdentityProviders()
