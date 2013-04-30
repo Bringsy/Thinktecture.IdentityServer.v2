@@ -20,3 +20,4 @@ PublishProfiles
 /src/OnPremise/WebSite/WebSite_Publish.csproj
 /eConduct.IdentityServer.sln
 /src/OnPremise/WebSite/Properties/PublishProfiles
+/src/OnPremise/WebSite/Properties/PublishProfiles/*.pubxml
