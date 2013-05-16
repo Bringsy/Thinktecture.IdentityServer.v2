@@ -496,6 +496,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                     ClientID = idp.ClientID,
                     ClientSecret = idp.ClientSecret,
                     ProviderType = (OAuth2ProviderTypes?)idp.OAuth2ProviderType,
+                    Realm = string.IsNullOrEmpty(idp.Realm) ? null : new Uri(idp.Realm)
                 });
         }
 
@@ -519,6 +520,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                 ClientID = idp.ClientID,
                 ClientSecret = idp.ClientSecret,
                 ProviderType = (OAuth2ProviderTypes?)idp.OAuth2ProviderType,
+                Realm = string.IsNullOrEmpty(idp.Realm) ? null : new Uri(idp.Realm)
             };
         }
 
@@ -552,6 +554,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
             entity.ClientID = idp.ClientID;
             entity.ClientSecret = idp.ClientSecret;
             entity.OAuth2ProviderType = (int?)idp.ProviderType;
+            entity.Realm = idp.Realm.AbsoluteUri; 
         }
 
         #endregion
