@@ -3,13 +3,17 @@
  * see license.txt
  */
 
+using Microsoft.IdentityModel.Tokens.JWT;
 using System;
 using System.ComponentModel.Composition;
 using System.IdentityModel.Protocols.WSTrust;
+using System.IdentityModel.Tokens;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using System.ServiceModel;
 using System.Web.Http;
+using Thinktecture.IdentityModel;
 using Thinktecture.IdentityModel.Authorization;
 using Thinktecture.IdentityServer.Models;
 using Thinktecture.IdentityServer.Repositories;
@@ -69,9 +73,93 @@ namespace Thinktecture.IdentityServer.Protocols.OAuth2
             {
                 return ProcessRefreshTokenRequest(client, tokenRequest.Refresh_Token, tokenType);
             }
+            else if (string.Equals(tokenRequest.Grant_Type, OAuth2Constants.GrantTypes.ClientCredentials, System.StringComparison.Ordinal))
+            {
+                return ProcessClientCredentialTokenRequest(tokenRequest, tokenType, client);
+            }
+            else if (string.Equals(tokenRequest.Grant_Type, OAuth2Constants.GrantTypes.JwtBearer, System.StringComparison.Ordinal))
+            {
+                return ProcessJwtAssertionRequest(tokenRequest, tokenType, client);
+            }
 
             Tracing.Error("invalid grant type: " + tokenRequest.Grant_Type);
             return OAuthErrorResponseMessage(OAuth2Constants.Errors.UnsupportedGrantType);
+        }
+
+        private HttpResponseMessage ProcessJwtAssertionRequest(TokenRequest request, string tokenType, Client client)
+        {
+            Tracing.Information("Starting JWT assertion request for client: " + client.Name);
+
+            var userPrincipal = ValidateJwtAssertion(request.Assertion);
+
+            var principal = Principal.Create("OAuth2",
+                new Claim[]
+                {
+                    new Claim(Constants.Claims.Client, client.Name),
+                    new Claim(ClaimTypes.Name, userPrincipal.FindFirst("nameidentifier").Value),
+                    new Claim(Constants.Claims.PrincipalType, Constants.ClientPrincipalType, 
+                        ClaimValueTypes.String, Constants.InternalIssuer)
+                }
+            );
+
+            var sts = new STS();
+            TokenResponse tokenResponse;
+            if (sts.TryIssueToken(new EndpointReference(request.Scope), principal, tokenType, out tokenResponse))
+            {
+                var resp = Request.CreateResponse<TokenResponse>(HttpStatusCode.OK, tokenResponse);
+                return resp;
+            }
+            else
+            {
+                return OAuthErrorResponseMessage(OAuth2Constants.Errors.InvalidRequest);
+            }
+        }
+
+        private ClaimsPrincipal ValidateJwtAssertion(string assertion)
+        {
+            var handler = new JWTSecurityTokenHandler();
+            var token = handler.ReadToken(assertion) as JWTSecurityToken;
+
+            var validationParams = new TokenValidationParameters
+            {
+                AudienceUriMode = System.IdentityModel.Selectors.AudienceUriMode.Never,
+                ValidateExpiration = true,
+                ValidateIssuer = true,
+                ValidIssuer = ConfigurationRepository.Global.IssuerUri,
+                ValidateSignature = true,
+                SigningToken = new X509SecurityToken(ConfigurationRepository.Keys.SigningCertificate)
+            };
+
+            return handler.ValidateToken(token, validationParams);
+        }
+
+        private HttpResponseMessage ProcessClientCredentialTokenRequest(TokenRequest request, string tokenType, Client client)
+        {
+            Tracing.Information("Starting client flow for client: " + client.Name);
+
+            var principal = Principal.Create("OAuth2",
+                new Claim[]
+                {
+                    new Claim(Constants.Claims.Client, client.Name),
+                    new Claim(Constants.Claims.Scope,  request.Scope),
+                    new Claim(Constants.Claims.PrincipalType, Constants.ClientPrincipalType, 
+                        ClaimValueTypes.String, Constants.InternalIssuer)
+                }
+            );
+
+            var sts = new STS();
+            TokenResponse tokenResponse;
+            if (sts.TryIssueToken(new EndpointReference(request.Scope), principal, tokenType, out tokenResponse))
+            {
+                //tokenResponse.RefreshToken = CodeTokenRepository.AddCode(CodeTokenType.RefreshTokenIdentifier, client.ID, userName, scope.Uri.AbsoluteUri);
+
+                var resp = Request.CreateResponse<TokenResponse>(HttpStatusCode.OK, tokenResponse);
+                return resp;
+            }
+            else
+            {
+                return OAuthErrorResponseMessage(OAuth2Constants.Errors.InvalidRequest);
+            }
         }
 
         private HttpResponseMessage ProcessResourceOwnerCredentialRequest(TokenRequest request, string tokenType, Client client)
@@ -101,7 +189,7 @@ namespace Thinktecture.IdentityServer.Protocols.OAuth2
             Tracing.Information("Processing authorization code token request for client: " + client.Name);
             return ProcessCodeTokenRequest(client, code, tokenType);
         }
-        
+
         private HttpResponseMessage ProcessRefreshTokenRequest(Client client, string refreshToken, string tokenType)
         {
             Tracing.Information("Processing refresh token request for client: " + client.Name);
@@ -190,13 +278,17 @@ namespace Thinktecture.IdentityServer.Protocols.OAuth2
             // check supported grant types
             if (!request.Grant_Type.Equals(OAuth2Constants.GrantTypes.AuthorizationCode) &&
                 !request.Grant_Type.Equals(OAuth2Constants.GrantTypes.Password) &&
-                !request.Grant_Type.Equals(OAuth2Constants.GrantTypes.RefreshToken))
+                !request.Grant_Type.Equals(OAuth2Constants.GrantTypes.RefreshToken) &&
+                !request.Grant_Type.Equals(OAuth2Constants.GrantTypes.ClientCredentials) &&
+                !request.Grant_Type.Equals(OAuth2Constants.GrantTypes.JwtBearer))
             {
                 return OAuthErrorResponseMessage(OAuth2Constants.Errors.UnsupportedGrantType);
             }
 
             // resource owner password flow requires a well-formed scope
-            if (request.Grant_Type.Equals(OAuth2Constants.GrantTypes.Password))
+            if (request.Grant_Type.Equals(OAuth2Constants.GrantTypes.Password) ||
+                request.Grant_Type.Equals(OAuth2Constants.GrantTypes.ClientCredentials) ||
+                request.Grant_Type.Equals(OAuth2Constants.GrantTypes.JwtBearer))
             {
                 Uri appliesTo;
                 if (!Uri.TryCreate(request.Scope, UriKind.Absolute, out appliesTo))
@@ -204,7 +296,7 @@ namespace Thinktecture.IdentityServer.Protocols.OAuth2
                     Tracing.Error("Malformed scope: " + request.Scope);
                     return OAuthErrorResponseMessage(OAuth2Constants.Errors.InvalidScope);
                 }
-                
+
                 Tracing.Information("OAuth2 endpoint called for scope: " + request.Scope);
             }
 
@@ -231,6 +323,26 @@ namespace Thinktecture.IdentityServer.Protocols.OAuth2
                     !client.AllowResourceOwnerFlow)
                 {
                     Tracing.Error("Resource owner password flow not allowed for client");
+                    return OAuthErrorResponseMessage(OAuth2Constants.Errors.UnsupportedGrantType);
+                }
+            }
+
+            if (request.Grant_Type.Equals(OAuth2Constants.GrantTypes.ClientCredentials))
+            {
+                if (!ConfigurationRepository.OAuth2.EnableClientFlow ||
+                    !client.AllowClientFlow)
+                {
+                    Tracing.Error("Client flow not allowed for client");
+                    return OAuthErrorResponseMessage(OAuth2Constants.Errors.UnsupportedGrantType);
+                }
+            }
+
+            if (request.Grant_Type.Equals(OAuth2Constants.GrantTypes.JwtBearer))
+            {
+                if (!ConfigurationRepository.OAuth2.EnableAssertionGrant ||
+                    !client.AllowAssertionGrant)
+                {
+                    Tracing.Error("Assertion grant not allowed for client");
                     return OAuthErrorResponseMessage(OAuth2Constants.Errors.UnsupportedGrantType);
                 }
             }

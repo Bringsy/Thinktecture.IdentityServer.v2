@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Thinktecture.IdentityServer.Resources.Models.Configuration
-{
-
-
+namespace Thinktecture.IdentityServer.Resources.Models.Configuration {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -57,6 +57,42 @@ namespace Thinktecture.IdentityServer.Resources.Models.Configuration
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Assertion Grant.
+        /// </summary>
+        public static string EnableAssertionGrant {
+            get {
+                return ResourceManager.GetString("EnableAssertionGrant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow assertion grants.
+        /// </summary>
+        public static string EnableAssertionGrantDescription {
+            get {
+                return ResourceManager.GetString("EnableAssertionGrantDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Client Flow.
+        /// </summary>
+        public static string EnableClientFlow {
+            get {
+                return ResourceManager.GetString("EnableClientFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This flow is for clients without interactive users..
+        /// </summary>
+        public static string EnableClientFlowDescription {
+            get {
+                return ResourceManager.GetString("EnableClientFlowDescription", resourceCulture);
             }
         }
         

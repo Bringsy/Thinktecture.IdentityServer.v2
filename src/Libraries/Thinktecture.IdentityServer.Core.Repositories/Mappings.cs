@@ -210,7 +210,9 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                 EnableImplicitFlow = entity.EnableImplicitFlow,
                 EnableResourceOwnerFlow = entity.EnableResourceOwnerFlow,
                 EnableConsent = entity.EnableConsent,
-                EnableCodeFlow = entity.EnableCodeFlow
+                EnableCodeFlow = entity.EnableCodeFlow,
+                EnableClientFlow = entity.EnableClientFlow,
+                EnableAssertionGrant = entity.EnableAssertionGrant
             };
         }
 
@@ -222,7 +224,9 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                 EnableImplicitFlow = model.EnableImplicitFlow,
                 EnableResourceOwnerFlow = model.EnableResourceOwnerFlow,
                 EnableConsent = model.EnableConsent,
-                EnableCodeFlow = model.EnableCodeFlow
+                EnableCodeFlow = model.EnableCodeFlow,
+                EnableClientFlow = model.EnableClientFlow,
+                EnableAssertionGrant = model.EnableAssertionGrant
             };
         }
         #endregion
@@ -434,7 +438,9 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                 AllowRefreshToken = client.AllowRefreshToken,
                 AllowCodeFlow = client.AllowCodeFlow,
                 AllowImplicitFlow = client.AllowImplicitFlow,
-                AllowResourceOwnerFlow = client.AllowResourceOwnerFlow
+                AllowResourceOwnerFlow = client.AllowResourceOwnerFlow,
+                AllowClientFlow = client.AllowClientFlow,
+                AllowAssertionGrant = client.AllowAssertionGrant
             };
         }
         public static void UpdateEntity(this Models.Client client, Entities.Client target)
@@ -452,6 +458,8 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
             target.AllowResourceOwnerFlow = client.AllowResourceOwnerFlow;
             target.AllowImplicitFlow = client.AllowImplicitFlow;
             target.AllowCodeFlow = client.AllowCodeFlow;
+            target.AllowClientFlow = client.AllowClientFlow;
+            target.AllowAssertionGrant = client.AllowAssertionGrant;
         }
         #endregion
 
@@ -488,7 +496,6 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                     ClientID = idp.ClientID,
                     ClientSecret = idp.ClientSecret,
                     ProviderType = (OAuth2ProviderTypes?)idp.OAuth2ProviderType,
-                    Realm = string.IsNullOrEmpty(idp.Realm) ? null : new Uri(idp.Realm)
                 });
         }
 
@@ -512,7 +519,6 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                 ClientID = idp.ClientID,
                 ClientSecret = idp.ClientSecret,
                 ProviderType = (OAuth2ProviderTypes?)idp.OAuth2ProviderType,
-                Realm = string.IsNullOrEmpty(idp.Realm) ? null : new Uri(idp.Realm)
             };
         }
 
@@ -546,7 +552,6 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
             entity.ClientID = idp.ClientID;
             entity.ClientSecret = idp.ClientSecret;
             entity.OAuth2ProviderType = (int?)idp.ProviderType;
-            entity.Realm = idp.Realm.AbsoluteUri; 
         }
 
         #endregion

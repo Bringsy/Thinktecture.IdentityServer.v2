@@ -16,6 +16,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Xml;
+using Thinktecture.IdentityModel.Constants;
 using Thinktecture.IdentityServer.Models;
 using Thinktecture.IdentityServer.Repositories;
 
@@ -132,6 +133,18 @@ namespace Thinktecture.IdentityServer.TokenService
             }
 
             var userClaims = GetOutputClaims(principal, requestDetails, ClaimsRepository);
+            
+            // strip claims if JWT
+            if (requestDetails.TokenType.Equals(TokenTypes.JsonWebToken))
+            {
+                var strippedUserClaims = new List<Claim>(); 
+                foreach (var claim in userClaims)
+                {
+                   strippedUserClaims.Add(new Claim(claim.Type.Trim('/').Split('/').Last(), claim.Value)); 
+                }
+                userClaims = strippedUserClaims; 
+            }
+
             var outputIdentity = new ClaimsIdentity(userClaims, "IdSrv");
 
             if (requestDetails.IsActAsRequest)
@@ -146,8 +159,14 @@ namespace Thinktecture.IdentityServer.TokenService
             }
         }
 
-        public static List<Claim> GetOutputClaims(ClaimsPrincipal principal, RequestDetails requestDetails, IClaimsRepository claimsRepository)
+        public static List<Claim> GetOutputClaims(ClaimsPrincipal principal, RequestDetails requestDetails,
+            IClaimsRepository claimsRepository)
         {
+            if (principal.HasClaim(Constants.Claims.PrincipalType, Constants.ClientPrincipalType))
+            {
+                return SanitizeInternalClaims(principal).Claims.ToList(); 
+            }
+
             return claimsRepository.GetClaims(SanitizeInternalClaims(principal), requestDetails).ToList();
         }
 

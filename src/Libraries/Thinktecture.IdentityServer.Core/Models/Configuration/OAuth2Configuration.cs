@@ -18,7 +18,13 @@ namespace Thinktecture.IdentityServer.Models.Configuration
         [Display(ResourceType = typeof (Resources.Models.Configuration.OAuth2Configuration), Name = "EnableCodeFlow", Description = "EnableCodeFlowDescription")]
         public bool EnableCodeFlow { get; set; }
 
+        [Display(ResourceType = typeof(Resources.Models.Configuration.OAuth2Configuration), Name = "EnableClientFlow", Description = "EnableClientFlowDescription")]
+        public bool EnableClientFlow { get; set; }
+
         [Display(ResourceType = typeof (Resources.Models.Configuration.OAuth2Configuration), Name = "EnableConsent", Description = "EnableConsentDescription")]
         public bool EnableConsent { get; set; }
+
+        [Display(ResourceType = typeof(Resources.Models.Configuration.OAuth2Configuration), Name = "EnableAssertionGrant", Description = "EnableAssertionGrantDescription")]
+        public bool EnableAssertionGrant { get; set; } 
     }
 }

@@ -180,4 +180,16 @@
   <data name="RedirectUriMustBeHTTPS" xml:space="preserve">
     <value>Redirect URI must be HTTPS.</value>
   </data>
+  <data name="AllowAssertionGrant" xml:space="preserve">
+    <value>Allow Assertion Grant</value>
+  </data>
+  <data name="AllowAssertionGrantDescription" xml:space="preserve">
+    <value>Allows assertion grant</value>
+  </data>
+  <data name="AllowClientFlow" xml:space="preserve">
+    <value>Allow Client Flow</value>
+  </data>
+  <data name="AllowClientFlowDescription" xml:space="preserve">
+    <value>Allow Client Flow</value>
+  </data>
 </root>

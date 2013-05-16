@@ -10,6 +10,8 @@ namespace Thinktecture.IdentityServer
         public const string AuthenticationType = "IdentityServer";
         public const string InternalIssuer = "IdentityServerInternal";
 
+        public const string ClientPrincipalType = "Client";
+
         public static class Claims
         {
             public const string Base = "http://identityserver.thinktecture.com/claims/";
@@ -17,6 +19,7 @@ namespace Thinktecture.IdentityServer
             public const string IdentityProvider = Base + "identityprovider";
             public const string Client = Base + "client";
             public const string Scope = Base + "scope";
+            public const string PrincipalType = Base + "principaltype"; 
         }
 
         public static class Actions
