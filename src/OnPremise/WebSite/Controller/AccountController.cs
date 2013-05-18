@@ -42,13 +42,13 @@ namespace Thinktecture.IdentityServer.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (UserRepository.ValidateUser(model.UserName, model.Password))
+                if (UserRepository.ValidateUser(model.Email, model.Password))
                 {
                     // establishes a principal, set the session cookie and redirects
                     // you can also pass additional claims to signin, which will be embedded in the session token
 
                     return SignIn(
-                        model.UserName, 
+                        model.Email, 
                         AuthenticationMethods.Password, 
                         model.ReturnUrl, 
                         model.EnableSSO, 
@@ -90,6 +90,23 @@ namespace Thinktecture.IdentityServer.Web.Controllers
             }
 
             return View("Error");
+        }
+
+        public ActionResult Register()
+        {
+            return View(); 
+        }
+
+        [HttpPost]
+        public ActionResult Register(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+
+            }
+
+            return View(model);
         }
     }
 }

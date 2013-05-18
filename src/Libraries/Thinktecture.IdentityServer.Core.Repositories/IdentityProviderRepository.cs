@@ -77,7 +77,6 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
             }
         }
 
-
         public Models.IdentityProvider Get(int id)
         {
             using (var entities = IdentityServerConfigurationContext.Get())

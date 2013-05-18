@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using BrockAllen.MembershipReboot;
+using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Data.Entity;
 using System.Security.Claims;
@@ -28,6 +29,7 @@ namespace Thinktecture.IdentityServer.Web
         {
             // create empty config database if it not exists
             Database.SetInitializer(new ConfigurationDatabaseInitializer());
+            Database.SetInitializer<EFMembershipRebootDatabase>(new CreateDatabaseIfNotExists<EFMembershipRebootDatabase>());
             
             // set the anti CSRF for name (that's a unqiue claim in our system)
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;

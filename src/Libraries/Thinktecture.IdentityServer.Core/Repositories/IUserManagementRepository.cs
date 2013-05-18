@@ -15,7 +15,7 @@ namespace Thinktecture.IdentityServer.Repositories
         IEnumerable<string> GetRolesForUser(string userName);
 
         IEnumerable<string> GetRoles();
-        void CreateRole(string roleName);
-        void DeleteRole(string roleName);
+        void CreateRole(string userName);
+        void DeleteRole(string userName);
     }
 }

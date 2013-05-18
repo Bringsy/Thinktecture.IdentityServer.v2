@@ -11,8 +11,8 @@ namespace Thinktecture.IdentityServer.Web.ViewModels
     public class SignInModel
     {
         [Required]
-        [Display(Name = "UserName", ResourceType = typeof(Resources.SignInModel))]
-        public string UserName { get; set; }
+        [Display(Name = "Email" /*, ResourceType = typeof(Resources.SignInModel)*/)]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

@@ -29,6 +29,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
         public DbSet<IdentityProvider> IdentityProviders { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<CodeToken> CodeTokens { get; set; }
+        public DbSet<ClaimInfo> ClaimInfos { get; set; }
 
         public static Func<IdentityServerConfigurationContext> FactoryMethod { get; set; }
 

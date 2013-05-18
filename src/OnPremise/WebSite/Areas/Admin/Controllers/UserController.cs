@@ -60,13 +60,13 @@ namespace Thinktecture.IdentityServer.Web.Areas.Admin.Controllers
             {
                 try
                 {
-                    this.UserManagementRepository.CreateUser(model.Username, model.Password, model.Email);
+                    this.UserManagementRepository.CreateUser(model.Email, model.Password);
                     if (model.Roles != null)
                     {
                         var roles = model.Roles.Where(x => x.InRole).Select(x => x.Role);
                         if (roles.Any())
                         {
-                            this.UserManagementRepository.SetRolesForUser(model.Username, roles);
+                            this.UserManagementRepository.SetRolesForUser(model.Email, roles);
                         }
                     }
                     TempData["Message"] = Resources.UserController.UserCreated;

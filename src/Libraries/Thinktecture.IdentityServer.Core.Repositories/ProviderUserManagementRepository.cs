@@ -1,139 +1,115 @@
-﻿using System;
+﻿using BrockAllen.MembershipReboot;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration.Provider;
 using System.Linq;
-using System.Web.Security;
+using System.Security.Claims;
+using Thinktecture.IdentityServer.Repositories.Sql;
+using Thinktecture.IdentityServer.Repositories.Sql.Configuration;
 
 namespace Thinktecture.IdentityServer.Repositories
 {
     public class ProviderUserManagementRepository : IUserManagementRepository
     {
+        UserAccountService userService;
+
+        public ProviderUserManagementRepository()
+        {
+            this.userService = new UserAccountService(new EFUserAccountRepository(), null, null);
+        }
+
         public void CreateUser(string userName, string password, string email = null)
         {
-            try
-            {
-                Membership.CreateUser(userName, password, email);
-            }
-            catch (MembershipCreateUserException ex)
-            {
-                throw new ValidationException(ex.Message);
-            }
+            var user = userService.CreateAccount(userName, password, email == null ? userName : email);
+            this.userService.VerifyAccount(user.VerificationKey);
         }
 
         public void DeleteUser(string userName)
         {
-            Membership.DeleteUser(userName);
-        }
-
-        public void SetRolesForUser(string userName, IEnumerable<string> roles)
-        {
-            var userRoles = Roles.GetRolesForUser(userName);
-
-            if (userRoles.Length != 0)
-            {
-                Roles.RemoveUserFromRoles(userName, userRoles);
-            }
-
-            if (roles.Any())
-            {
-                Roles.AddUserToRoles(userName, roles.ToArray());
-            }
-        }
-
-        public IEnumerable<string> GetRolesForUser(string userName)
-        {
-            return Roles.GetRolesForUser(userName);
-        }
-
-        public IEnumerable<string> GetRoles()
-        {
-            return Roles.GetAllRoles();
-        }
-
-        public void CreateRole(string roleName)
-        {
-            try
-            {
-                Roles.CreateRole(roleName);
-            }
-            catch (ProviderException)
-            { }
-        }
-
-        public void DeleteRole(string roleName)
-        {
-            try
-            {
-                Roles.DeleteRole(roleName);
-            }
-            catch (ProviderException)
-            { }
+            userService.DeleteAccount(userName);
         }
 
         public IEnumerable<string> GetUsers()
         {
-            var items = Membership.GetAllUsers().OfType<MembershipUser>();
-            return items.Select(x => x.UserName);
+            return userService.GetAll().Select(c => c.Username);
         }
 
         public IEnumerable<string> GetUsers(string filter)
         {
-            var items = Membership.GetAllUsers().OfType<MembershipUser>();
+            var items = userService.GetAll();
             var query =
                 from user in items
-                where user.UserName.Contains(filter) ||
+                where user.Username.Contains(filter) ||
                       (user.Email != null && user.Email.Contains(filter))
-                select user.UserName;
+                select user.Username;
             return query;
         }
 
         public void SetPassword(string userName, string password)
         {
-            if (String.IsNullOrEmpty(userName))
+            this.userService.SetPassword(userName, password);
+        }
+
+        #region Roles
+
+        public void SetRolesForUser(string userName, IEnumerable<string> roles)
+        {
+            var user = this.userService.GetByUsername(userName);
+
+            foreach (var role in roles)
             {
-                throw new ValidationException("Username is required");
-            }
-            if (String.IsNullOrEmpty(password))
-            {
-                throw new ValidationException("Password is required");
+                user.AddClaim(ClaimTypes.Role, role);
             }
 
-            var provider = Membership.Provider;
-            if (password.Length < provider.MinRequiredPasswordLength)
-            {
-                throw new ValidationException(String.Format("{0} is the minimum password length", provider.MinRequiredPasswordLength));
-            }
-            if (provider.MinRequiredNonAlphanumericCharacters > 0)
-            {
-                int num2 = 0;
-                for (int i = 0; i < password.Length; i++)
-                {
-                    if (!char.IsLetterOrDigit(password[i]))
-                    {
-                        num2++;
-                    }
-                }
-                if (num2 < provider.MinRequiredNonAlphanumericCharacters)
-                {
-                    throw new ValidationException(String.Format("{0} is the minimum number of non-alphanumeric characters", provider.MinRequiredNonAlphanumericCharacters));
-                }
-            }
-            if (!String.IsNullOrWhiteSpace(provider.PasswordStrengthRegularExpression) && 
-                !System.Text.RegularExpressions.Regex.IsMatch(provider.PasswordStrengthRegularExpression, password))
-            {
-                throw new ValidationException(String.Format("Password does not match the regular expression {0}", provider.PasswordStrengthRegularExpression));
-            }
+            this.userService.SaveChanges(); 
+        }
 
-            try
+        public IEnumerable<string> GetRolesForUser(string userName)
+        {
+            var user = this.userService.GetByUsername(userName);
+            
+            if (user == null)
+                return new string[] { }; 
+
+            return user.Claims.Where(c => c.Type.Equals(ClaimTypes.Role)).Select(s => s.Value);
+        }
+
+        public IEnumerable<string> GetRoles()
+        {
+            using (var db = IdentityServerConfigurationContext.Get())
             {
-                var user = Membership.GetUser(userName);
-                user.ChangePassword(user.ResetPassword(), password);
-            }
-            catch (MembershipPasswordException mex)
-            {
-                throw new ValidationException(mex.Message, mex);
+                return db.ClaimInfos.Where(c => c.Type.Equals(ClaimTypes.Role)).Select(s => s.Value).ToList();
             }
         }
+
+        public void CreateRole(string roleName)
+        {
+            using (var db = IdentityServerConfigurationContext.Get())
+            {
+                var claimInfo = new ClaimInfo
+                {
+                    Type = ClaimTypes.Role,
+                    Value = roleName
+                };
+                db.ClaimInfos.Add(claimInfo);
+                db.SaveChanges();
+            }
+        }
+
+        public void DeleteRole(string roleName)
+        {
+            using (var db = IdentityServerConfigurationContext.Get())
+            {
+                var claimInfo = db.ClaimInfos.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Role)
+                    && c.Value.Equals(roleName, StringComparison.InvariantCultureIgnoreCase));
+
+                if (claimInfo != null)
+                {
+                    db.ClaimInfos.Remove(claimInfo);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        #endregion
     }
 }

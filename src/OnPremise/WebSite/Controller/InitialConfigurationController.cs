@@ -70,7 +70,7 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                 // create default IdentityServer groups and admin user.
                 if (model.CreateDefaultAccounts)
                 {
-                    var errors = CreateDefaultAccounts(model.UserName, model.Password);
+                    var errors = CreateDefaultAccounts(model.Email, model.Password);
 
                     if (errors.Count != 0)
                     {
@@ -108,8 +108,6 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                 // updates key material config
                 ConfigurationRepository.Keys = keys;
 
-
-                
                 return RedirectToAction("index", "home");
             }
 
@@ -118,7 +116,7 @@ namespace Thinktecture.IdentityServer.Web.Controllers
             return View(model);
         }
 
-        private List<string> CreateDefaultAccounts(string userName, string password)
+        private List<string> CreateDefaultAccounts(string email, string password)
         {
             var errors = new List<string>();
 
@@ -148,7 +146,7 @@ namespace Thinktecture.IdentityServer.Web.Controllers
 
             try
             {
-                UserManagement.CreateUser(userName, password);
+                UserManagement.CreateUser(email, password);
             }
             catch (Exception ex)
             {
@@ -157,7 +155,7 @@ namespace Thinktecture.IdentityServer.Web.Controllers
 
             try
             {
-                UserManagement.SetRolesForUser(userName, new string[] { Constants.Roles.IdentityServerAdministrators });
+                UserManagement.SetRolesForUser(email, new string[] { Constants.Roles.IdentityServerAdministrators });
             }
             catch (Exception ex)
             {
