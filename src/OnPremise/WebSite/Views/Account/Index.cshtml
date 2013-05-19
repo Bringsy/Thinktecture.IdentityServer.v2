@@ -1,0 +1,60 @@
+﻿@model Thinktecture.IdentityServer.Web.ViewModels.AccountModel
+
+@using (Html.BeginForm())
+{
+	
+	@Html.ValidationSummary("Please correct the following errors")
+	@Html.AntiForgeryToken()
+	
+	<fieldset class="editor small signin">
+		<legend>Personal Info</legend>
+		<div>
+			@Html.LabelFor(m => m.Surname)
+			@Html.TextBoxFor(m => m.Surname)
+			@Html.ValidationMessageFor(m => m.Surname)
+		</div>
+		<div>
+			@Html.LabelFor(m => m.GivenName)
+			@Html.TextBoxFor(m => m.GivenName)
+			@Html.ValidationMessageFor(m => m.GivenName)
+		</div>
+		<div class="buttons">
+			<input type="submit" value="Sign Up" />
+		</div>
+	</fieldset>
+}
+
+<fieldset class="editor small signin">
+	<legend>Roles</legend>
+	@if (Model.Roles == null || Model.Roles.Count() == 0)
+ {
+		<span>No roles assigned</span>
+ }
+ else
+ {
+		<ul>
+			@foreach (var role in Model.Roles)
+   {
+				<li>@role</li>
+   }
+		</ul>
+ }
+</fieldset>
+
+<fieldset class="editor small signin">
+	<legend>Additional </legend>
+
+	<ul>
+		<li><a href="#">Change Password</a></li>
+		<li><a href="#">Close Account</a></li>
+	</ul>
+</fieldset>
+
+@section scripts
+{
+	<script type="text/javascript">
+		$(function () {
+
+		});
+	</script>
+}

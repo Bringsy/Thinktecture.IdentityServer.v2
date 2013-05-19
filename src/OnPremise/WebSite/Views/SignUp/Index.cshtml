@@ -1,0 +1,54 @@
+﻿@model Thinktecture.IdentityServer.Web.ViewModels.SignUpModel
+
+@using (Html.BeginForm())
+{
+	
+	@Html.ValidationSummary("Please correct the following errors")
+	@Html.AntiForgeryToken()
+	
+	<fieldset class="editor small signin">
+		<legend>Sing Up</legend>
+		<div>
+			@Html.LabelFor(m => m.Email)
+			@Html.TextBoxFor(m => m.Email)
+			@Html.ValidationMessageFor(m => m.Email)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.GivenName)
+			@Html.TextBoxFor(m => m.GivenName)
+			@Html.ValidationMessageFor(m => m.GivenName)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.Surname)
+			@Html.TextBoxFor(m => m.Surname)
+			@Html.ValidationMessageFor(m => m.Surname)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.Password)
+			@Html.PasswordFor(m => m.Password)
+			@Html.ValidationMessageFor(m => m.Password)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.PasswordRepeat)
+			@Html.PasswordFor(m => m.PasswordRepeat)
+			@Html.ValidationMessageFor(m => m.PasswordRepeat)
+		</div>
+
+		<div class="buttons">
+			<input type="submit" value="Sign Up" />
+		</div>
+	</fieldset>
+}
+
+@section scripts
+{
+	<script type="text/javascript">
+		$(function () {
+			$("#Email").focus();
+		});
+	</script>
+}
