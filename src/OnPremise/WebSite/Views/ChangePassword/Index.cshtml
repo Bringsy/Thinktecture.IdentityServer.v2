@@ -5,13 +5,13 @@
 
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary("Error")
-    @Html.AntiForgeryToken()
+	@Html.ValidationSummary("Error")
+	@Html.AntiForgeryToken()
 	
-    <fieldset class="editor small">
-        <legend>@ViewBag.Title</legend>
+	<fieldset class="editor small">
+		<legend>@ViewBag.Title</legend>
 
-        <div>
+		<div>
 			@Html.LabelFor(m => m.OldPassword)
 			@Html.EditorFor(m => m.OldPassword)
 			@Html.ValidationMessageFor(m => m.OldPassword)
@@ -29,10 +29,10 @@
 			@Html.ValidationMessageFor(m => m.NewPasswordConfirm)
 		</div>
 
-        <div class="buttons">
-            <button>Change Password</button>
-        </div>
-    </fieldset>
+		<div class="buttons">
+			<button>Change Password</button>
+		</div>
+	</fieldset>
 }
 
 @section scripts

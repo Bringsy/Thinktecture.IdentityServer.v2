@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BrockAllen.MembershipReboot;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using BrockAllen.MembershipReboot;
-using Thinktecture.IdentityServer.Web.ViewModels;
 
 namespace Thinktecture.IdentityServer.Web.Controllers
 {
@@ -42,9 +41,8 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                 try
                 {
                     if (this.userAccountService.DeleteAccount(User.Identity.Name))
-                    {
-                        return RedirectToAction("Index", "Logout");
-                    }
+                        return RedirectToAction("index", "signout");
+
                     ModelState.AddModelError("", "Error closing your account");
                 }
                 catch (ValidationException ex)
@@ -55,6 +53,5 @@ namespace Thinktecture.IdentityServer.Web.Controllers
 
             return View();
         }
-
     }
 }

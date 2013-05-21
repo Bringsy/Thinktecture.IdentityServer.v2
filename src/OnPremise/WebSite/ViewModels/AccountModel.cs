@@ -7,11 +7,11 @@ using System.Web;
 
 namespace Thinktecture.IdentityServer.Web.ViewModels
 {
-    public class AccountModel : IValidatableObject
+    public class AccountModel 
     {
-        [Required]
         [Display(Name = "E-Mail")]
         [EmailAddress]
+        [ScaffoldColumn(false)]
         public string Email { get; set; }
 
         [ScaffoldColumn(false)]
@@ -28,15 +28,6 @@ namespace Thinktecture.IdentityServer.Web.ViewModels
         [Display(Name = "Roles")]
         public string[] Roles { get; set; }
 
-        // TODO: add more here 
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (!SecuritySettings.Instance.EmailIsUsername &&
-                String.IsNullOrWhiteSpace(this.UserName))
-            {
-                yield return new ValidationResult("Username is required", new string[] { "UserName" });
-            }
-        }
+       
     }
 }

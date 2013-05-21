@@ -1,36 +1,33 @@
 ﻿@model Thinktecture.IdentityServer.Web.ViewModels.ChangeEmailFromKeyInputModel
-
 @{
-    ViewBag.Title = "Change Email";
+	ViewBag.Title = "Change Email";
 }
-
-<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary("Error")
-    @Html.AntiForgeryToken()
+	@Html.ValidationSummary("Error")
+	@Html.AntiForgeryToken()
 	@Html.HiddenFor(m => m.Key)
 
-    <fieldset>
-        <legend>@ViewBag.Title</legend>
+	<fieldset class="editor small">
+		<legend>@ViewBag.Title</legend>
 
-        <div>
+		<div>
 			@Html.LabelFor(m => m.NewEmail)
-			@Html.TextBoxFor(m => m.NewEmail)
+			@Html.EditorFor(m => m.NewEmail)
 			@Html.ValidationMessageFor(m => m.NewEmail)
 		</div>
 
 		<div>
 			@Html.LabelFor(m => m.Password)
-			@Html.TextBoxFor(m => m.Password)
+			@Html.EditorFor(m => m.Password)
 			@Html.ValidationMessageFor(m => m.Password)
 		</div>
 
-        <div class="buttons">
-            <button>Change Email</button>
-        </div>
-    </fieldset>
+		<div class="buttons">
+			<button>Change Email</button>
+		</div>
+	</fieldset>
 }
 
 @section scripts

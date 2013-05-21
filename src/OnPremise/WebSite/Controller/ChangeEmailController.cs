@@ -2,17 +2,24 @@
 using System.Web.Mvc;
 using BrockAllen.MembershipReboot;
 using Thinktecture.IdentityServer.Web.ViewModels;
+using Thinktecture.IdentityServer.Protocols;
+using System.IdentityModel.Tokens;
+using System.ComponentModel.Composition;
+using Thinktecture.IdentityServer.Repositories;
 
 namespace Thinktecture.IdentityServer.Web.Controllers
 {
     [Authorize]
     public class ChangeEmailController : Controller
     {
+        IConfigurationRepository configurationRepository { get; set; }
         UserAccountService userAccountService;
         ClaimsBasedAuthenticationService authService;
 
-        public ChangeEmailController(UserAccountService userAccountService, ClaimsBasedAuthenticationService authService)
+        public ChangeEmailController(UserAccountService userAccountService,
+            ClaimsBasedAuthenticationService authService, IConfigurationRepository configurationRepository)
         {
+            this.configurationRepository = configurationRepository;
             this.userAccountService = userAccountService;
             this.authService = authService;
         }
@@ -79,7 +86,15 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                         // since we've changed the email, we need to re-issue the cookie that
                         // contains the claims.
                         var account = this.userAccountService.GetByEmail(model.NewEmail);
-                        authService.SignIn(account.Username);
+                        //authService.SignIn(account.Username);
+
+                        new AuthenticationHelper().SetSessionToken(
+                            account.Username,
+                            AuthenticationMethods.Password,
+                            true,
+                            this.configurationRepository.Global.SsoCookieLifetime,
+                            null);
+
                         return View("Success");
                     }
 
@@ -90,7 +105,7 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                     ModelState.AddModelError("", ex.Message);
                 }
             }
-            
+
             return View("Confirm", model);
         }
     }

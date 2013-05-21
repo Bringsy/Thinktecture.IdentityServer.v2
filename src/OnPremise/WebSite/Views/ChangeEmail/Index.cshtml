@@ -3,19 +3,17 @@
 	ViewBag.Title = "Change Email";
 }
 
-<h2>@ViewBag.Title</h2>
-
 @using (Html.BeginForm())
 {
 	@Html.ValidationSummary("Error")
 	@Html.AntiForgeryToken()
 
-	<fieldset>
+	<fieldset class="editor small">
 		<legend>@ViewBag.Title</legend>
 
 		<div>
 			@Html.LabelFor(m => m.NewEmail)
-			@Html.TextBoxFor(m => m.NewEmail)
+			@Html.EditorFor(m => m.NewEmail)
 			@Html.ValidationMessageFor(m => m.NewEmail)
 		</div>
 
@@ -24,7 +22,6 @@
 		</div>
 	</fieldset>
 }
-
 
 @section scripts
 {

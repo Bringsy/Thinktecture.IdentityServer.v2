@@ -1,6 +1,7 @@
 ﻿using BrockAllen.MembershipReboot;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Services;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -9,6 +10,17 @@ using Thinktecture.IdentityServer.Web.ViewModels;
 
 namespace Thinktecture.IdentityServer.Web.Controllers
 {
+    public static class UserAccountExtensions
+    {
+        public static void EditClaim(this UserAccount user, string type, string value)
+        {
+            if (user.HasClaim(type))
+                user.RemoveClaim(type);
+
+            user.AddClaim(type, value);
+        }
+    }
+
     [Authorize]
     public class AccountController : Controller
     {
@@ -34,7 +46,10 @@ namespace Thinktecture.IdentityServer.Web.Controllers
 
         public ActionResult Index()
         {
-            var user = this.userAccountService.GetByUsername(ClaimsPrincipal.Current.Identity.Name); 
+            var user = this.userAccountService.GetByUsername(ClaimsPrincipal.Current.Identity.Name);
+
+            if (user == null)
+                FederatedAuthentication.SessionAuthenticationModule.DeleteSessionTokenCookie();
 
             var vm = new AccountModel
             {
@@ -45,7 +60,7 @@ namespace Thinktecture.IdentityServer.Web.Controllers
             // Map claims 
             vm.Surname = user.GetClaimValue(System.IdentityModel.Claims.ClaimTypes.Surname);
             vm.GivenName = user.GetClaimValue(System.IdentityModel.Claims.ClaimTypes.GivenName);
-            vm.Roles = user.GetClaimValues(System.Security.Claims.ClaimTypes.Role).ToArray(); 
+            vm.Roles = user.GetClaimValues(System.Security.Claims.ClaimTypes.Role).ToArray();
 
             return View(vm);
         }
@@ -54,8 +69,14 @@ namespace Thinktecture.IdentityServer.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(AccountModel model)
         {
+            var user = this.userAccountService.GetByUsername(ClaimsPrincipal.Current.Identity.Name);
 
-            return View(model);
+            user.EditClaim(System.IdentityModel.Claims.ClaimTypes.Surname, model.Surname);
+            user.EditClaim(System.IdentityModel.Claims.ClaimTypes.GivenName, model.GivenName);
+
+            this.userAccountService.SaveChanges();
+
+            return RedirectToAction("Index"); 
         }
     }
 }
