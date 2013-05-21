@@ -2,7 +2,6 @@
 
 @using (Html.BeginForm())
 {
-	
 	@Html.ValidationSummary("Please correct the following errors")
 	@Html.AntiForgeryToken()
 	
@@ -27,17 +26,17 @@
 <fieldset class="editor small signin">
 	<legend>Roles</legend>
 	@if (Model.Roles == null || Model.Roles.Count() == 0)
- {
+	{
 		<span>No roles assigned</span>
- }
+	}
  else
  {
-		<ul>
-			@foreach (var role in Model.Roles)
-   {
-				<li>@role</li>
-   }
-		</ul>
+	<ul>
+		@foreach (var role in Model.Roles)
+		{
+		<li>@role</li>
+		}
+	</ul>
  }
 </fieldset>
 
@@ -45,8 +44,8 @@
 	<legend>Additional </legend>
 
 	<ul>
-		<li><a href="#">Change Password</a></li>
-		<li><a href="#">Close Account</a></li>
+		<li>@Html.ActionLink("Change Password", "index", "changepassword", new { area = "" }, null)</li>
+		<li>@Html.ActionLink("Close Account", "index", "closeaccount", new { area = "" }, null)</li>
 	</ul>
 </fieldset>
 
@@ -54,7 +53,7 @@
 {
 	<script type="text/javascript">
 		$(function () {
-
+			$('#Surname').focus(); 
 		});
 	</script>
 }

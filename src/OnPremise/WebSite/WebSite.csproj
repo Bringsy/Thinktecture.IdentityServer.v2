@@ -665,6 +665,10 @@
     <Compile Include="Areas\Admin\ViewModels\UserRolesViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\UsersViewModel.cs" />
     <Compile Include="Controller\AccountController.cs" />
+    <Compile Include="Controller\ChangeEmailController.cs" />
+    <Compile Include="Controller\ChangePasswordController.cs" />
+    <Compile Include="Controller\CloseAccountController.cs" />
+    <Compile Include="Controller\PasswordResetController.cs" />
     <Compile Include="Controller\SignInController.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\InitialConfigurationController.cs" />
@@ -710,7 +714,12 @@
     </Compile>
     <Compile Include="Utility\HtmlHelpers.cs" />
     <Compile Include="ViewModels\AccountModel.cs" />
-    <Compile Include="ViewModels\ResetPasswordModel.cs" />
+    <Compile Include="ViewModels\ChangeEmailFromKeyInputModel.cs" />
+    <Compile Include="ViewModels\ChangeEmailRequestInputModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordFromResetKeyInputModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordInputModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordModel.cs" />
+    <Compile Include="ViewModels\PasswordResetInputModel.cs" />
     <Compile Include="ViewModels\InitialConfigurationModel.cs" />
     <Compile Include="ViewModels\SignUpModel.cs" />
     <Compile Include="ViewModels\SignInModel.cs" />
@@ -1211,6 +1220,17 @@
     <Content Include="Views\SignUp\Confirm.cshtml" />
     <Content Include="Views\SignUp\Success.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\PasswordReset\Index.cshtml" />
+    <Content Include="Views\PasswordReset\Confirm.cshtml" />
+    <Content Include="Views\PasswordReset\ResetSuccess.cshtml" />
+    <Content Include="Views\PasswordReset\Success.cshtml" />
+    <Content Include="Views\ChangeEmail\ChangeRequestSuccess.cshtml" />
+    <Content Include="Views\ChangeEmail\Confirm.cshtml" />
+    <Content Include="Views\ChangeEmail\Index.cshtml" />
+    <Content Include="Views\ChangeEmail\Success.cshtml" />
+    <Content Include="Views\ChangePassword\Index.cshtml" />
+    <Content Include="Views\ChangePassword\Success.cshtml" />
+    <Content Include="Views\CloseAccount\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

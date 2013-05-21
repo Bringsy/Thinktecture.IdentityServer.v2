@@ -1,0 +1,43 @@
+﻿@model Thinktecture.IdentityServer.Web.ViewModels.ChangeEmailFromKeyInputModel
+
+@{
+    ViewBag.Title = "Change Email";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary("Error")
+    @Html.AntiForgeryToken()
+	@Html.HiddenFor(m => m.Key)
+
+    <fieldset>
+        <legend>@ViewBag.Title</legend>
+
+        <div>
+			@Html.LabelFor(m => m.NewEmail)
+			@Html.TextBoxFor(m => m.NewEmail)
+			@Html.ValidationMessageFor(m => m.NewEmail)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.Password)
+			@Html.TextBoxFor(m => m.Password)
+			@Html.ValidationMessageFor(m => m.Password)
+		</div>
+
+        <div class="buttons">
+            <button>Change Email</button>
+        </div>
+    </fieldset>
+}
+
+@section scripts
+{
+	<script type="text/javascript">
+		$(function () {
+			$("#NewEmail").focus();
+		});
+	</script>
+}

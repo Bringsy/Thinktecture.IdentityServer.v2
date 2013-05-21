@@ -41,19 +41,15 @@
 		</div>
 
 		<div>
-			@Html.ActionLink("Forgot password?", "PasswordReset", "Account", new { area = "" }, null)
+			@Html.ActionLink("Forgot password?", "index", "passwordreset", new { area = "" }, null)
 			@if (Model.ShowClientCertificateLink)
 			{ 
 	   <br />
 				@Html.ActionLink(SignIn_cshtml.UseClientCertificate, "CertificateSignIn", new { returnUrl = Model.ReturnUrl }) 
 			}
 		</div>
-	</fieldset>
-	
-	
+	</fieldset>	
 }
-
-
 
 @section scripts
 {

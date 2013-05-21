@@ -168,16 +168,16 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
         {
             return new GlobalConfiguration
             {
-                SiteName = "thinktecture identity server v2",
-                IssuerUri = "http://identityserver.v2.thinktecture.com/trust/changethis",
-                IssuerContactEmail = "office@thinktecture.com",
-                DefaultWSTokenType = TokenTypes.Saml2TokenProfile11,
+                SiteName = "Bringsy identity server",
+                IssuerUri = "urn:bringsyidsrv",
+                IssuerContactEmail = "russlan.akiev@bringsy.com",
+                DefaultWSTokenType = TokenTypes.JsonWebToken,
                 DefaultHttpTokenType = TokenTypes.JsonWebToken,
                 DefaultTokenLifetime = 10,
                 MaximumTokenLifetime = 24,
                 SsoCookieLifetime = 10,
                 RequireEncryption = false,
-                EnforceUsersGroupMembership = true,
+                EnforceUsersGroupMembership = false,
                 HttpPort = 80,
                 HttpsPort = 443,
                 EnableClientCertificateAuthentication = true,
@@ -195,7 +195,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                 EnableFederation = true,
                 EnableHrd = true,
                 RequireReplyToWithinRealm = true,
-                RequireSslForReplyTo = true
+                RequireSslForReplyTo = true                
             };
         }
 
@@ -221,7 +221,9 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                 EnableImplicitFlow = true,
                 EnableResourceOwnerFlow = true,
                 EnableCodeFlow = true,
-                EnableConsent = true
+                EnableConsent = true,
+                EnableClientFlow = true,
+                EnableAssertionGrant = true
             };
         }
 
@@ -272,31 +274,17 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
             {
                 new RelyingParties
                 {
-                    Name = "Web API Security Sample",
+                    Name = "Bringsy Api",
                     Enabled = true,
-                    Realm = "urn:webapisecurity",
-                    SymmetricSigningKey = "fWUU28oBOIcaQuwUKiL01KztD/CsZX83C3I0M1MOYN4=",    
+                    Realm = "urn:bringsyapi",
                 },
                 new RelyingParties
                 {
-                    Name = "Local Test RP",
+                    Name = "Bringsy Web",
                     Enabled = true,
-                    Realm = "urn:testrp",
-                    ReplyTo = "https://roadie/idsrvrp/"
-                },
-                new RelyingParties
-                {
-                    Name = "Test RP (Symmetric Key)",
-                    Enabled = true,
-                    Realm = "urn:test:symmetric",
-                    SymmetricSigningKey = "fWUU28oBOIcaQuwUKiL01KztD/CsZX83C3I0M1MOYN4=",    
-                },
-                new RelyingParties
-                {
-                    Name = "Test RP (Asymmetric Key)",
-                    Enabled = true,
-                    Realm = "urn:test:asymmetric",
-                }
+                    Realm = "urn:bringsyweb",
+                    ReplyTo = "https://bringsy.com"
+                }                
             };
         }
 
@@ -304,12 +292,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
         {
             return new List<Delegation>
             {
-                new Delegation
-                {
-                    Description = "Test for Local RP",
-                    UserName = "middletier",
-                    Realm = "urn:testrp"
-                }
+                
             };
         }
 
@@ -317,12 +300,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
         {
             return new List<ClientCertificates>
             {
-                new ClientCertificates
-                {
-                    Description = "Test Client Cert Mapping",
-                    UserName = "dominick",
-                    Thumbprint = "D19126617D55DFB5952F5A86C4EB80C5A00CC917"
-                }
+                
             };
         }
 
@@ -330,36 +308,6 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
         {
             return new List<IdentityProvider>
             {
-                new IdentityProvider
-                {
-                    Name = "adfs",
-                    DisplayName = "LeastPrivilege ADFS Server",
-                    Enabled = true,
-                    ShowInHrdSelection = true,
-                    Type = 1,
-                    WSFederationEndpoint = "https://adfs.leastprivilege.vm/adfs/ls/",
-                    IssuerThumbprint = "cad5731ae474b932631e57feb72d810aea6f0220"
-                },
-                new IdentityProvider
-                {
-                    Name = "waad",
-                    DisplayName = "Windows Azure Active Directory",
-                    Enabled = true,
-                    ShowInHrdSelection = true,
-                    Type = 1,
-                    WSFederationEndpoint = "https://accounts.accesscontrol.windows.net/fe132fb5-4843-41b4-bce8-9366bad88b80/v2/wsfederation",
-                    IssuerThumbprint = "3464C5BDD2BE7F2B6112E2F08E9C0024E33D9FE0"
-                },
-                new IdentityProvider
-                {
-                    Name = "acs",
-                    DisplayName = "Access Control Service",
-                    Enabled = true,
-                    ShowInHrdSelection = true,
-                    Type = 1,
-                    WSFederationEndpoint = "https://idsrvwebids.accesscontrol.windows.net/v2/wsfederation",
-                    IssuerThumbprint = "5AAD3C5CC1A5A715E791BEA85B4445D3CB29F33F"
-                },
                 new IdentityProvider
                 {
                     Name = "Facebook",
