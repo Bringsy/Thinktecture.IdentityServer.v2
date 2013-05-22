@@ -8,15 +8,15 @@ using System.Web;
 using System.Web.Mvc;
 
 
-namespace Thinktecture.IdentityServer.Web.App_Start
+namespace Thinktecture.IdentityServer.Web.Areas.Account
 {
     public static class HttpContextExtensions
     {
         public static string GetApplicationUrl(this HttpContext context)
         {
-            if (context == null) 
+            if (context == null)
                 throw new ArgumentNullException("context");
-    
+
             var request = context.Request;
             var baseUrl =
                 request.Url.Scheme +
@@ -62,11 +62,11 @@ namespace Thinktecture.IdentityServer.Web.App_Start
                     return new ApplicationInformation
                     {
                         ApplicationName = "Test",
-                        LoginUrl = baseUrl + "singin",
-                        VerifyAccountUrl = baseUrl + "signup/confirm/",
-                        CancelNewAccountUrl = baseUrl + "signup/cancel/",
-                        ConfirmPasswordResetUrl = baseUrl + "passwordreset/confirm/",
-                        ConfirmChangeEmailUrl = baseUrl + "changeemail/confirm/"
+                        LoginUrl = baseUrl + "SignIn",
+                        VerifyAccountUrl = baseUrl + "SignUp/Confirm/",
+                        CancelNewAccountUrl = baseUrl + "SignUp/Cancel/",
+                        ConfirmPasswordResetUrl = baseUrl + "PasswordReset/Confirm/",
+                        ConfirmChangeEmailUrl = baseUrl + "Account/ChangeEmail/Confirm/"
                     };
                 });
 

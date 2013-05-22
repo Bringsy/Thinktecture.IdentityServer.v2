@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Thinktecture.IdentityServer.Web.ViewModels
+namespace Thinktecture.IdentityServer.Web.Areas.Account.ViewModels
 {
     public class AccountModel 
     {

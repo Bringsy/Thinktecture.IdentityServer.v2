@@ -1,4 +1,4 @@
-﻿@model Thinktecture.IdentityServer.Web.ViewModels.AccountModel
+﻿@model Thinktecture.IdentityServer.Web.Areas.Account.ViewModels.AccountModel
 
 @using (Html.BeginForm())
 {
@@ -18,13 +18,14 @@
 			@Html.ValidationMessageFor(m => m.GivenName)
 		</div>
 		<div class="buttons">
-			<input type="submit" value="Sign Up" />
+			<input type="submit" value="Save Changes" />
+			<input type="reset" value="Cancel" />
 		</div>
 	</fieldset>
 }
 
 <fieldset class="editor small signin">
-	<legend>Roles</legend>
+	<legend>Assigned Roles</legend>
 	@if (Model.Roles == null || Model.Roles.Count() == 0)
 	{
 		<span>No roles assigned</span>
@@ -38,16 +39,6 @@
 		}
 	</ul>
  }
-</fieldset>
-
-<fieldset class="editor small signin">
-	<legend>Additional </legend>
-
-	<ul>
-		<li>@Html.ActionLink("Change Password", "index", "changepassword", new { area = "" }, null)</li>
-		<li>@Html.ActionLink("Close E-Mail", "index", "changeemail", new { area = "" }, null)</li>
-		<li>@Html.ActionLink("Close Account", "index", "closeaccount", new { area = "" }, null)</li>
-	</ul>
 </fieldset>
 
 @section scripts

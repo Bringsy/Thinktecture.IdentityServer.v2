@@ -10,7 +10,6 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Thinktecture.IdentityServer.Repositories;
 using Thinktecture.IdentityServer.Repositories.Sql;
-using Thinktecture.IdentityServer.Web.App_Start;
 
 namespace Thinktecture.IdentityServer.Web
 {
@@ -24,7 +23,6 @@ namespace Thinktecture.IdentityServer.Web
 
         [Import]
         public IRelyingPartyRepository RelyingPartyRepository { get; set; }
-
 
         protected void Application_Start()
         {
@@ -45,7 +43,6 @@ namespace Thinktecture.IdentityServer.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes, ConfigurationRepository, UserRepository);
             ProtocolConfig.RegisterProtocols(GlobalConfiguration.Configuration, RouteTable.Routes, ConfigurationRepository, UserRepository, RelyingPartyRepository);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AutofacConfig.Register(); 
         }
 
         private void SetupCompositionContainer()

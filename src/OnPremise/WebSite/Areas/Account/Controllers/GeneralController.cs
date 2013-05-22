@@ -1,14 +1,11 @@
 ﻿using BrockAllen.MembershipReboot;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Services;
 using System.Linq;
 using System.Security.Claims;
-using System.Web;
 using System.Web.Mvc;
-using Thinktecture.IdentityServer.Web.ViewModels;
+using Thinktecture.IdentityServer.Web.Areas.Account.ViewModels;
 
-namespace Thinktecture.IdentityServer.Web.Controllers
+namespace Thinktecture.IdentityServer.Web.Areas.Account.Controllers
 {
     public static class UserAccountExtensions
     {
@@ -22,11 +19,11 @@ namespace Thinktecture.IdentityServer.Web.Controllers
     }
 
     [Authorize]
-    public class AccountController : Controller
+    public class GeneralController : Controller
     {
         UserAccountService userAccountService;
 
-        public AccountController(UserAccountService userAccountService)
+        public GeneralController(UserAccountService userAccountService)
         {
             this.userAccountService = userAccountService;
         }
@@ -75,6 +72,8 @@ namespace Thinktecture.IdentityServer.Web.Controllers
             user.EditClaim(System.IdentityModel.Claims.ClaimTypes.GivenName, model.GivenName);
 
             this.userAccountService.SaveChanges();
+
+            TempData["Message"] = "Update Successful";
 
             return RedirectToAction("Index"); 
         }

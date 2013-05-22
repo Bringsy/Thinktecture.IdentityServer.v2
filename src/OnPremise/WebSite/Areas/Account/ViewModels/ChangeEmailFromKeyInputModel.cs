@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace Thinktecture.IdentityServer.Web.ViewModels
+namespace Thinktecture.IdentityServer.Web.Areas.Account.ViewModels
 {
     public class ChangeEmailFromKeyInputModel
     {

@@ -1,25 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
-using BrockAllen.MembershipReboot;
-using Thinktecture.IdentityServer.Web.ViewModels;
-using Thinktecture.IdentityServer.Protocols;
-using System.IdentityModel.Tokens;
+﻿using BrockAllen.MembershipReboot;
 using System.ComponentModel.Composition;
+using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens;
+using System.Web.Mvc;
+using Thinktecture.IdentityServer.Protocols;
 using Thinktecture.IdentityServer.Repositories;
+using Thinktecture.IdentityServer.Web.Areas.Account.ViewModels;
 
-namespace Thinktecture.IdentityServer.Web.Controllers
+namespace Thinktecture.IdentityServer.Web.Areas.Account.Controllers
 {
     [Authorize]
     public class ChangeEmailController : Controller
     {
+        [Import]
         IConfigurationRepository configurationRepository { get; set; }
         UserAccountService userAccountService;
         ClaimsBasedAuthenticationService authService;
 
         public ChangeEmailController(UserAccountService userAccountService,
-            ClaimsBasedAuthenticationService authService, IConfigurationRepository configurationRepository)
+            ClaimsBasedAuthenticationService authService)
         {
-            this.configurationRepository = configurationRepository;
+            Container.Current.SatisfyImportsOnce(this);
             this.userAccountService = userAccountService;
             this.authService = authService;
         }
@@ -52,7 +53,9 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                 {
                     if (this.userAccountService.ChangeEmailRequest(User.Identity.Name, model.NewEmail))
                     {
-                        return View("ChangeRequestSuccess", (object)model.NewEmail);
+                        TempData["Message"] = "Update Successful, You should recieve an email shortly at " + model.NewEmail;
+                        return View(); 
+                        //return View("ChangeRequestSuccess", (object)model.NewEmail);
                     }
 
                     ModelState.AddModelError("", "Error requesting email change.");
@@ -95,7 +98,9 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                             this.configurationRepository.Global.SsoCookieLifetime,
                             null);
 
-                        return View("Success");
+                        TempData["Message"] = "You email was successfully changed.";
+                        return View("Confirm"); 
+                        //return View("Success");
                     }
 
                     ModelState.AddModelError("", "Error changing email.");

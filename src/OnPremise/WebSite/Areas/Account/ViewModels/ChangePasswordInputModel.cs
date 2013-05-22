@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Thinktecture.IdentityServer.Web.ViewModels
+namespace Thinktecture.IdentityServer.Web.Areas.Account.ViewModels
 {
     public class ChangePasswordInputModel
     {

@@ -2,8 +2,9 @@
 using System.Web.Mvc;
 using BrockAllen.MembershipReboot;
 using Thinktecture.IdentityServer.Web.ViewModels;
+using Thinktecture.IdentityServer.Web.Areas.Account.ViewModels;
 
-namespace Thinktecture.IdentityServer.Web.Controllers
+namespace Thinktecture.IdentityServer.Web.Areas.Account.Controllers
 {
     [Authorize]
     public class ChangePasswordController : Controller
@@ -43,7 +44,9 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                 {
                     if (this.userAccountService.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword))
                     {
-                        return View("Success");
+                        TempData["Message"] = "Update Successful";
+                        return View(); 
+                        //return View("Success");
                     }
                     else
                     {

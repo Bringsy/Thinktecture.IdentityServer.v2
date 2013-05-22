@@ -269,10 +269,40 @@
       <DependentUpon>_ViewStart.cshtml.resx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\AutofacConfig.cs" />
+    <Compile Include="Areas\Account\AutofacConfig.cs" />
     <Compile Include="App_Start\ProtocolConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Account\AccountAreaRegistration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Account\Controllers\ChangeEmailController.cs" />
+    <Compile Include="Areas\Account\Controllers\ChangePasswordController.cs" />
+    <Compile Include="Areas\Account\Controllers\CloseAccountController.cs" />
+    <Compile Include="Areas\Account\Controllers\GeneralController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Account\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Account\Controllers\MenuController.cs" />
+    <Compile Include="Areas\Account\ViewModels\AccountModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Account\ViewModels\ChangeEmailFromKeyInputModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Account\ViewModels\ChangeEmailRequestInputModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Account\ViewModels\ChangePasswordFromResetKeyInputModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Account\ViewModels\ChangePasswordInputModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Account\ViewModels\ChangePasswordModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Account\ViewModels\MenuViewModel.cs" />
     <Compile Include="Areas\Admin\App_LocalResources\ClientCertificate\Configure.cshtml.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -664,14 +694,10 @@
     <Compile Include="Areas\Admin\ViewModels\UserInputModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\UserRolesViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\UsersViewModel.cs" />
-    <Compile Include="Controller\AccountController.cs" />
-    <Compile Include="Controller\ChangeEmailController.cs" />
-    <Compile Include="Controller\ChangePasswordController.cs" />
-    <Compile Include="Controller\CloseAccountController.cs" />
-    <Compile Include="Controller\PasswordResetController.cs" />
-    <Compile Include="Controller\SignInController.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\InitialConfigurationController.cs" />
+    <Compile Include="Controller\PasswordResetController.cs" />
+    <Compile Include="Controller\SignInController.cs" />
     <Compile Include="Controller\SignOutController.cs" />
     <Compile Include="Controller\SignUpController.cs" />
     <Compile Include="Global.asax.cs">
@@ -713,16 +739,13 @@
       <DependentUpon>SignInModel.resx</DependentUpon>
     </Compile>
     <Compile Include="Utility\HtmlHelpers.cs" />
-    <Compile Include="ViewModels\AccountModel.cs" />
-    <Compile Include="ViewModels\ChangeEmailFromKeyInputModel.cs" />
-    <Compile Include="ViewModels\ChangeEmailRequestInputModel.cs" />
-    <Compile Include="ViewModels\ChangePasswordFromResetKeyInputModel.cs" />
-    <Compile Include="ViewModels\ChangePasswordInputModel.cs" />
-    <Compile Include="ViewModels\ChangePasswordModel.cs" />
-    <Compile Include="ViewModels\PasswordResetInputModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordFromResetKeyInputModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ViewModels\InitialConfigurationModel.cs" />
-    <Compile Include="ViewModels\SignUpModel.cs" />
+    <Compile Include="ViewModels\PasswordResetInputModel.cs" />
     <Compile Include="ViewModels\SignInModel.cs" />
+    <Compile Include="ViewModels\SignUpModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\dummy.txt" />
@@ -1027,6 +1050,17 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SignInModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="Areas\Account\Scripts\Account.js" />
+    <Content Include="Areas\Account\Views\ChangeEmail\Confirm.cshtml" />
+    <Content Include="Areas\Account\Views\ChangeEmail\Index.cshtml" />
+    <Content Include="Areas\Account\Views\ChangeEmail\Success.cshtml" />
+    <Content Include="Areas\Account\Views\ChangePassword\Index.cshtml" />
+    <Content Include="Areas\Account\Views\CloseAccount\Index.cshtml" />
+    <Content Include="Areas\Account\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Account\Content\Account.css" />
+    <Content Include="Areas\Account\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Account\Views\Menu\Index.cshtml" />
+    <Content Include="Areas\Account\Views\Menu\LoadChildMenu.cshtml" />
     <None Include="Areas\Admin\Content\Admin.less" />
     <EmbeddedResource Include="App_LocalResources\Account\SignIn.cshtml.fr.resx">
       <DependentUpon>SignIn.cshtml.resx</DependentUpon>
@@ -1056,6 +1090,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Index.cshtml.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="Areas\Account\Views\General\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Account\Views\Web.config" />
     <Content Include="Areas\Admin\Content\Admin.css">
       <DependentUpon>Admin.less</DependentUpon>
     </Content>
@@ -1215,15 +1253,6 @@
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\OAuth2Authorize\Error.cshtml" />
     <Content Include="Views\OAuth2Authorize\ShowConsent.cshtml" />
-    <Content Include="Views\SignUp\Index.cshtml" />
-    <Content Include="Views\SignUp\Cancel.cshtml" />
-    <Content Include="Views\SignUp\Confirm.cshtml" />
-    <Content Include="Views\SignUp\Success.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\PasswordReset\Index.cshtml" />
-    <Content Include="Views\PasswordReset\Confirm.cshtml" />
-    <Content Include="Views\PasswordReset\ResetSuccess.cshtml" />
-    <Content Include="Views\PasswordReset\Success.cshtml" />
     <Content Include="Views\ChangeEmail\ChangeRequestSuccess.cshtml" />
     <Content Include="Views\ChangeEmail\Confirm.cshtml" />
     <Content Include="Views\ChangeEmail\Index.cshtml" />
@@ -1231,6 +1260,15 @@
     <Content Include="Views\ChangePassword\Index.cshtml" />
     <Content Include="Views\ChangePassword\Success.cshtml" />
     <Content Include="Views\CloseAccount\Index.cshtml" />
+    <Content Include="Views\PasswordReset\Confirm.cshtml" />
+    <Content Include="Views\PasswordReset\Index.cshtml" />
+    <Content Include="Views\PasswordReset\ResetSuccess.cshtml" />
+    <Content Include="Views\PasswordReset\Success.cshtml" />
+    <Content Include="Views\SignIn\Index.cshtml" />
+    <Content Include="Views\SignUp\Cancel.cshtml" />
+    <Content Include="Views\SignUp\Confirm.cshtml" />
+    <Content Include="Views\SignUp\Index.cshtml" />
+    <Content Include="Views\SignUp\Success.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -1267,7 +1305,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\SignIn\Index.cshtml" />
     <Content Include="Views\Home\AppIntegration.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\InitialConfiguration\Index.cshtml" />
