@@ -20,14 +20,32 @@ namespace Thinktecture.IdentityServer.Repositories
         {
             var userName = principal.Identity.Name;
             var claims = new List<Claim>(from c in principal.Claims select c);
-
             var user = this.userService.GetByUsername(userName);
 
-            foreach (var userClaim in user.Claims)
+            // replace name claim by email claim if email is user name 
+            if (SecuritySettings.Instance.EmailIsUsername)
             {
-                claims.Add(new Claim(userClaim.Type, userClaim.Value));
+                var nameClaim = claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name));
+                if (nameClaim != null)
+                {
+                    claims.Add(new Claim(ClaimTypes.Email, nameClaim.Value));
+                    claims.Remove(nameClaim);
+                }
+            }
+            else
+            {
+                // TODO: validate if email is already there if email is not user name 
+                claims.Add(new Claim(ClaimTypes.Email, user.Email));
             }
 
+            // add name id 
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.NameID.ToString()));
+
+            // add other user claims 
+            // TODO: filter claims 
+            foreach (var userClaim in user.Claims)
+                claims.Add(new Claim(userClaim.Type, userClaim.Value));
+            
             return claims;
         }
 

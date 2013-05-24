@@ -27,7 +27,5 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account.ViewModels
 
         [Display(Name = "Roles")]
         public string[] Roles { get; set; }
-
-       
     }
 }

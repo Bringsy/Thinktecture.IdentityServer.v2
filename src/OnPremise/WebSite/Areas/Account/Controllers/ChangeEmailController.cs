@@ -86,11 +86,10 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account.Controllers
                 {
                     if (this.userAccountService.ChangeEmailFromKey(model.Password, model.Key, model.NewEmail))
                     {
-                        // since we've changed the email, we need to re-issue the cookie that
-                        // contains the claims.
+                        // since we've changed the email, we need to re-issue the cookie that contains the claims.
                         var account = this.userAccountService.GetByEmail(model.NewEmail);
-                        //authService.SignIn(account.Username);
 
+                        // authService.SignIn(account.Username);
                         new AuthenticationHelper().SetSessionToken(
                             account.Username,
                             AuthenticationMethods.Password,
@@ -100,7 +99,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account.Controllers
 
                         TempData["Message"] = "You email was successfully changed.";
                         return View("Confirm"); 
-                        //return View("Success");
+                        // return View("Success");
                     }
 
                     ModelState.AddModelError("", "Error changing email.");

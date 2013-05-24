@@ -19,7 +19,6 @@ namespace Thinktecture.IdentityServer.Web
             #region Main UI
 
             routes.MapRoute("ChangeImail", "changeemail/{action}/{id}", new { controller = "ChangeEmail", action = "Index", id = UrlParameter.Optional });
-            routes.MapRoute("ChangePassword", "changepassword/{action}/{id}", new { controller = "ChangePassword", action = "Index", id = UrlParameter.Optional });
             routes.MapRoute("CloseAccount", "closeaccount/{action}/{id}", new { controller = "CloseAccount", action = "Index", id = UrlParameter.Optional });
             routes.MapRoute("PasswordReset", "passwordreset/{action}/{id}", new { controller = "PasswordReset", action = "Index", id = UrlParameter.Optional });
             routes.MapRoute("SignIn", "signin/{action}/{id}", new { controller = "SignIn", action = "Index", id = UrlParameter.Optional });

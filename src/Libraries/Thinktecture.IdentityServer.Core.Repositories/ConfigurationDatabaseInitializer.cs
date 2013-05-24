@@ -168,7 +168,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
         {
             return new GlobalConfiguration
             {
-                SiteName = "Bringsy identity server",
+                SiteName = "Bringsy Account",
                 IssuerUri = "urn:bringsyidsrv",
                 IssuerContactEmail = "russlan.akiev@bringsy.com",
                 DefaultWSTokenType = TokenTypes.JsonWebToken,
@@ -195,7 +195,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                 EnableFederation = true,
                 EnableHrd = true,
                 RequireReplyToWithinRealm = true,
-                RequireSslForReplyTo = true                
+                RequireSslForReplyTo = true
             };
         }
 
@@ -284,7 +284,14 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                     Enabled = true,
                     Realm = "urn:bringsyweb",
                     ReplyTo = "https://bringsy.com"
-                }                
+                },
+                new RelyingParties
+                {
+                    Name = "Kooboo CMS",
+                    Enabled = true,
+                    Realm = "urn:kooboocms",
+                    ReplyTo = "https://kooboo.cms"
+                }
             };
         }
 
@@ -292,7 +299,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
         {
             return new List<Delegation>
             {
-                
+
             };
         }
 
@@ -300,7 +307,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
         {
             return new List<ClientCertificates>
             {
-                
+
             };
         }
 
@@ -329,7 +336,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                     ClientID = "00000000480DD362",
                     ClientSecret = "gH9ngNoSaxRrupt3UcynwI2aK8qODZvf",
                     OAuth2ProviderType = 3
-                },                
+                }
             };
         }
 

@@ -5,6 +5,7 @@ using Thinktecture.IdentityServer.Web.ViewModels;
 
 namespace Thinktecture.IdentityServer.Web.Controllers
 {
+    
     public class SignUpController : Controller
     {
         UserAccountService userAccountService;
@@ -29,6 +30,8 @@ namespace Thinktecture.IdentityServer.Web.Controllers
 
         public ActionResult Index()
         {
+            // var profileClaims = ProfileClaimsConfiguration.GetProfileClaims().ToArray(); 
+
             return View(new SignUpModel());
         }
 
@@ -41,15 +44,14 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                 try
                 {
                     var user = this.userAccountService.CreateAccount(
-                        (SecuritySettings.Instance.EmailIsUsername) ? model.Email : model.UserName, 
+                        (SecuritySettings.Instance.EmailIsUsername) ? model.Email : model.UserName,
                         model.Password, model.Email);
 
+                    // TODO: Add ui culture claim ...
                     user.AddClaim(System.IdentityModel.Claims.ClaimTypes.GivenName, model.GivenName);
                     user.AddClaim(System.IdentityModel.Claims.ClaimTypes.Surname, model.Surname);
-                    // TODO: Add ui culture claim ...
 
-                    this.userAccountService.SaveChanges(); 
-
+                    this.userAccountService.SaveChanges();
 
                     if (SecuritySettings.Instance.RequireAccountVerification)
                     {
