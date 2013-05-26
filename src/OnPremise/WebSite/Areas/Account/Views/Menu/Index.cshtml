@@ -2,8 +2,12 @@
 
 <h1>Menu</h1>
 <ul>
-    <li>@Html.ActionLink("General", "Index", "General")</li>
-    <li>@Html.ActionLink("Change Password", "Index", "ChangePassword")</li>
-    <li>@Html.ActionLink("Change E-Mail", "Index", "ChangeEmail")</li>
-    <li>@Html.ActionLink("Close Account", "Index", "CloseAccount")</li>
+	<li>@Html.ActionLink("General", "Index", "General")</li>
+	@if (!BrockAllen.MembershipReboot.SecuritySettings.Instance.EmailIsUsername)
+	 {
+	 <li>@Html.ActionLink("Change Username", "Index", "ChangeUsername")</li>
+	 }
+	<li>@Html.ActionLink("Change E-Mail", "Index", "ChangeEmail")</li>
+	<li>@Html.ActionLink("Change Password", "Index", "ChangePassword")</li>
+	<li>@Html.ActionLink("Close Account", "Index", "CloseAccount")</li>
 </ul>

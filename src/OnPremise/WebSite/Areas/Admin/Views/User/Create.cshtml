@@ -2,36 +2,55 @@
 @model UserInputModel
 
 @{
-    ViewBag.Title = Create_cshtml.CreateUser;
+	ViewBag.Title = Create_cshtml.CreateUser;
 }
 
 @using (Html.BeginForm("Create", "User"))
 {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(Create_cshtml.ErrorCreatingUser)
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary(Create_cshtml.ErrorCreatingUser)
 
-    <fieldset class="editor small">
-        <legend>@ViewBag.Title</legend>
+	<fieldset class="editor small">
+		<legend>@ViewBag.Title</legend>
 
-        @Html.EditorForModel()
+		@if (!BrockAllen.MembershipReboot.SecuritySettings.Instance.EmailIsUsername)
+  {
+			<div>
+				@Html.LabelFor(m => m.UserName)
+				@Html.TextBoxFor(m => m.UserName)
+				@Html.ValidationMessageFor(m => m.UserName)
+			</div>
+  }
 
-        <div>
-            <label>@Create_cshtml.Roles</label>
-            <div class="inline-editor create-user-roles">
-                @for (int i = 0; i < Model.Roles.Length; i++)
-                {
-                    <div>
-                        @Html.HiddenFor(x => Model.Roles[i].Role)
-                        @Html.LabelFor(x => Model.Roles[i].InRole, Model.Roles[i].Role)
-                        @Html.CheckBoxFor(x => Model.Roles[i].InRole)
-                    </div>
-                }
-            </div>
-        </div>
+		<div>
+			@Html.LabelFor(m => m.Email)
+			@Html.EditorFor(m => m.Email)
+			@Html.ValidationMessageFor(m => m.Email)
+		</div>
 
-        <div class="buttons">
-            <button type="submit">@Create_cshtml.Create</button>
-            <button type="reset">@Create_cshtml.Cancel</button>
-        </div>
-    </fieldset>
+		<div>
+			@Html.LabelFor(m => m.Password)
+			@Html.EditorFor(m => m.Password)
+			@Html.ValidationMessageFor(m => m.Password)
+		</div>
+
+		<div>
+			<label>@Create_cshtml.Roles</label>
+			<div class="inline-editor create-user-roles">
+				@for (int i = 0; i < Model.Roles.Length; i++)
+	{
+					<div>
+						@Html.HiddenFor(x => Model.Roles[i].Role)
+						@Html.LabelFor(x => Model.Roles[i].InRole, Model.Roles[i].Role)
+						@Html.CheckBoxFor(x => Model.Roles[i].InRole)
+					</div>
+	}
+			</div>
+		</div>
+
+		<div class="buttons">
+			<button type="submit">@Create_cshtml.Create</button>
+			<button type="reset" onclick="window.location='@Url.Action("Index")';">@Create_cshtml.Cancel</button>
+		</div>
+	</fieldset>
 }

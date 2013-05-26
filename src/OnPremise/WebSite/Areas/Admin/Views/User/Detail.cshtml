@@ -1,0 +1,111 @@
+﻿@model UserViewModel
+
+@{
+	ViewBag.Title = "Details for " + (Model.EmailIsUsername ? Model.User.Email : Model.User.Username); 
+}
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary("User Update")
+
+	<fieldset class="editor">
+		<legend>@ViewBag.Title</legend>
+
+		<div>
+			@Html.LabelFor(m => m.User.ID)
+			@Html.DisplayFor(m => m.User.ID)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.Tenant)
+			@Html.DisplayFor(m => m.User.Tenant)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.Username)
+			@Html.DisplayFor(m => m.User.Username)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.Email)
+			@Html.DisplayFor(m => m.User.Email)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.Created)
+			@Html.DisplayFor(m => m.User.Created)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.PasswordChanged)
+			@Html.DisplayFor(m => m.User.PasswordChanged)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.IsAccountVerified)
+			@Html.DisplayFor(m => m.User.IsAccountVerified)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.IsLoginAllowed)
+			@Html.DisplayFor(m => m.User.IsLoginAllowed)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.IsAccountClosed)
+			@Html.DisplayFor(m => m.User.IsAccountClosed)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.AccountClosed)
+			@Html.DisplayFor(m => m.User.AccountClosed)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.LastLogin)
+			@Html.DisplayFor(m => m.User.LastLogin)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.LastFailedLogin)
+			@Html.DisplayFor(m => m.User.LastFailedLogin)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.FailedLoginCount)
+			@Html.DisplayFor(m => m.User.FailedLoginCount)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.VerificationKey)
+			@Html.DisplayFor(m => m.User.VerificationKey)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.VerificationPurpose)
+			@Html.DisplayFor(m => m.User.VerificationPurpose)
+		</div>
+
+		<div>
+			@Html.LabelFor(m => m.User.VerificationKeySent)
+			@Html.DisplayFor(m => m.User.VerificationKeySent)
+		</div>
+
+
+	</fieldset>
+	
+	<fieldset class="editor">
+		<legend>Actions</legend>
+
+		<ul>
+			<li>@Html.ActionLink("Roles", "Roles", new { username = Model.User.Username })</li>
+			<li>@Html.ActionLink("Change password", "ChangePassword", new { username = Model.User.Username })</li>
+			@if (Model.IsProfileEnabled){
+			<li>@Html.ActionLink("Profile", "Profile", new { username =  Model.User.Username })</li>
+			}
+			@if (Model.IsOAuthRefreshTokenEnabled) {
+			<li>@Html.ActionLink("Tokens", "Index", "OAuthRefreshToken", new { username = Model.User.Username }, null)</li>
+			}
+		</ul>
+	</fieldset>
+}

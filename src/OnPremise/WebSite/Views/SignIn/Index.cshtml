@@ -19,11 +19,22 @@
 	@Html.ValidationSummary(true, SignIn_cshtml.SignInWasUnsuccessful)
 	<fieldset class="editor small signin">
 		<legend>@SignIn_cshtml.Login</legend>
-		<div>
-			@Html.LabelFor(m => m.Email)
-			@Html.TextBoxFor(m => m.Email)
-			@Html.ValidationMessageFor(m => m.Email)
-		</div>
+
+		@if (BrockAllen.MembershipReboot.SecuritySettings.Instance.EmailIsUsername)
+		{
+			<div>
+				@Html.LabelFor(m => m.Email)
+				@Html.TextBoxFor(m => m.Email)
+				@Html.ValidationMessageFor(m => m.Email)
+			</div>
+		}
+		else {
+			<div>
+				@Html.LabelFor(m => m.UserName)
+				@Html.TextBoxFor(m => m.UserName)
+				@Html.ValidationMessageFor(m => m.UserName)
+			</div> 
+		}
 
 		<div>
 			@Html.LabelFor(m => m.Password)
@@ -43,10 +54,10 @@
 		<div>
 			@Html.ActionLink("Forgot password?", "index", "passwordreset", new { area = "" }, null)
 			@if (Model.ShowClientCertificateLink)
-			{ 
-	   <br />
+   { 
+				<br />
 				@Html.ActionLink(SignIn_cshtml.UseClientCertificate, "CertificateSignIn", new { returnUrl = Model.ReturnUrl }) 
-			}
+   }
 		</div>
 	</fieldset>	
 }

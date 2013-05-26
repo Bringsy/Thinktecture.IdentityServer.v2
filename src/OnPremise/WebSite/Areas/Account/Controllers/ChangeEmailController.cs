@@ -13,12 +13,11 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account.Controllers
     public class ChangeEmailController : Controller
     {
         [Import]
-        IConfigurationRepository configurationRepository { get; set; }
-        UserAccountService userAccountService;
-        ClaimsBasedAuthenticationService authService;
+        private IConfigurationRepository configurationRepository { get; set; }
+        private UserAccountService userAccountService;
+        private ClaimsBasedAuthenticationService authService;
 
-        public ChangeEmailController(UserAccountService userAccountService,
-            ClaimsBasedAuthenticationService authService)
+        public ChangeEmailController(UserAccountService userAccountService, ClaimsBasedAuthenticationService authService)
         {
             Container.Current.SatisfyImportsOnce(this);
             this.userAccountService = userAccountService;
@@ -54,7 +53,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account.Controllers
                     if (this.userAccountService.ChangeEmailRequest(User.Identity.Name, model.NewEmail))
                     {
                         TempData["Message"] = "Update Successful, You should recieve an email shortly at " + model.NewEmail;
-                        return View(); 
+                        return View();
                         //return View("ChangeRequestSuccess", (object)model.NewEmail);
                     }
 
@@ -94,11 +93,10 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account.Controllers
                             account.Username,
                             AuthenticationMethods.Password,
                             true,
-                            this.configurationRepository.Global.SsoCookieLifetime,
-                            null);
+                            this.configurationRepository.Global.SsoCookieLifetime);
 
                         TempData["Message"] = "You email was successfully changed.";
-                        return View("Confirm"); 
+                        return View("Confirm");
                         // return View("Success");
                     }
 

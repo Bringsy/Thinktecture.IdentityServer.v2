@@ -1,0 +1,33 @@
+﻿@model Thinktecture.IdentityServer.Web.Areas.Account.ViewModels.ChangeUsernameInputModel
+@{
+	ViewBag.Title = "Change Username";
+}
+
+@using (Html.BeginForm())
+{
+	@Html.ValidationSummary("Error")
+	@Html.AntiForgeryToken()
+
+	<fieldset class="editor small">
+		<legend>@ViewBag.Title</legend>
+
+		<div>
+			@Html.LabelFor(m => m.NewUsername)
+			@Html.EditorFor(m => m.NewUsername)
+			@Html.ValidationMessageFor(m => m.NewUsername)
+		</div>
+
+		<div class="buttons">
+			<button>Change Username</button>
+		</div>
+	</fieldset>
+}
+
+@section scripts
+{
+	<script type="text/javascript">
+		$(function () {
+			$("#NewUsername").focus();
+		});
+	</script>
+}

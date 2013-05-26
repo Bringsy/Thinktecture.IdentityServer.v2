@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrockAllen.MembershipReboot;
+using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,20 +15,24 @@ namespace Thinktecture.IdentityServer.Web.Areas.Admin.Controllers
     {
         [Import]
         public IUserManagementRepository UserManagementRepository { get; set; }
+        UserAccountService userAccountService;
 
         public UserController()
         {
             Container.Current.SatisfyImportsOnce(this);
+            this.userAccountService = DependencyResolver.Current.GetService<UserAccountService>();
         }
 
-        public UserController(IUserManagementRepository userManagementRepository)
+        public UserController(IUserManagementRepository userManagementRepository, UserAccountService userAccountService)
         {
-            UserManagementRepository = userManagementRepository;
+            this.UserManagementRepository = userManagementRepository;
+            this.userAccountService = userAccountService;
         }
 
-        public ActionResult Index(string filter = null)
+        public ActionResult Index(string filter = null, int page = 0, int size = 20)
         {
-            var vm = new UsersViewModel(UserManagementRepository, filter);
+
+            var vm = new UsersViewModel(this.userAccountService, page, size, filter);
             return View("Index", vm);
         }
 
@@ -39,9 +44,9 @@ namespace Thinktecture.IdentityServer.Web.Areas.Admin.Controllers
             if (action == "delete") return Delete(list);
 
             ModelState.AddModelError("", Resources.UserController.InvalidAction);
-            var vm = new UsersViewModel(UserManagementRepository, null);
-            return View("Index", vm);
+            var vm = new UsersViewModel(this.userAccountService);
 
+            return View("Index", vm);
         }
 
         public ActionResult Create()
@@ -60,7 +65,9 @@ namespace Thinktecture.IdentityServer.Web.Areas.Admin.Controllers
             {
                 try
                 {
-                    this.UserManagementRepository.CreateUser(model.Email, model.Password);
+                    var userName = SecuritySettings.Instance.EmailIsUsername ? model.Email : model.UserName;
+
+                    this.UserManagementRepository.CreateUser(userName, model.Password, model.Email);
                     if (model.Roles != null)
                     {
                         var roles = model.Roles.Where(x => x.InRole).Select(x => x.Role);
@@ -83,6 +90,17 @@ namespace Thinktecture.IdentityServer.Web.Areas.Admin.Controllers
             }
 
             return View("Create", model);
+        }
+
+        public ActionResult Detail(string username)
+        {
+            var user = userAccountService.GetByUsername(username);
+            var vm = new UserViewModel
+            {
+                User = user
+            };
+
+            return this.View(vm);
         }
 
         private ActionResult Delete(UserDeleteModel[] list)
@@ -149,7 +167,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Admin.Controllers
             var vm = new UserProfileViewModel(username);
             return View(vm);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public new ActionResult Profile(string username, ProfilePropertyInputModel[] profileValues)
@@ -193,7 +211,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Admin.Controllers
                     ModelState.AddModelError("", "Error updating password");
                 }
             }
-            
+
             return View("ChangePassword", model);
         }
     }

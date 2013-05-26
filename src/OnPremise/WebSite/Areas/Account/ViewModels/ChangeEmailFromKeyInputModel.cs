@@ -7,10 +7,12 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account.ViewModels
     {
         [Required]
         [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [Required]
         [EmailAddress]
+        [Display(Name = "New E-Mail")]
         public string NewEmail { get; set; }
 
         [HiddenInput]

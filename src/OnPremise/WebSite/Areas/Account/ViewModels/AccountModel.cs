@@ -2,18 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Thinktecture.IdentityServer.Web.Areas.Account.ViewModels
 {
-    public class AccountModel 
+    public class AccountModel : IValidatableObject
     {
         [Display(Name = "E-Mail")]
         [EmailAddress]
-        [ScaffoldColumn(false)]
         public string Email { get; set; }
 
+        [Display(Name = "User Name")]
         [ScaffoldColumn(false)]
         public string UserName { get; set; }
 
@@ -27,5 +25,14 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account.ViewModels
 
         [Display(Name = "Roles")]
         public string[] Roles { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (!SecuritySettings.Instance.EmailIsUsername &&
+                String.IsNullOrWhiteSpace(this.UserName))
+            {
+                yield return new ValidationResult("Username is required", new string[] { "UserName" });
+            }
+        }
     }
 }

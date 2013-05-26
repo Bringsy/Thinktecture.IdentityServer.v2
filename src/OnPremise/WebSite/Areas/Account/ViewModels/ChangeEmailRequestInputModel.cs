@@ -6,6 +6,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account.ViewModels
     {
         [Required]
         [EmailAddress]
+        [Display(Name = "New E-Mail")]
         public string NewEmail { get; set; }
     }
 }

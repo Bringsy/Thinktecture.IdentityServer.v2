@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BrockAllen.MembershipReboot;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IdentityModel.Tokens;
 using System.Security.Claims;
@@ -48,13 +49,15 @@ namespace Thinktecture.IdentityServer.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (UserRepository.ValidateUser(model.Email, model.Password))
+                var userName = SecuritySettings.Instance.EmailIsUsername ? model.Email : model.UserName;
+
+                if (UserRepository.ValidateUser(userName, model.Password))
                 {
                     // establishes a principal, set the session cookie and redirects
                     // you can also pass additional claims to signin, which will be embedded in the session token
 
                     return SignIn(
-                        model.Email,
+                        userName,
                         AuthenticationMethods.Password,
                         model.ReturnUrl,
                         model.EnableSSO,
@@ -62,7 +65,7 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                 }
             }
 
-            ModelState.AddModelError("", Resources.AccountController.IncorrectCredentialsNoAuthorization);
+            this.ModelState.AddModelError("", Resources.AccountController.IncorrectCredentialsNoAuthorization);
 
             model.ShowClientCertificateLink = ConfigurationRepository.Global.EnableClientCertificateAuthentication;
             return View(model);

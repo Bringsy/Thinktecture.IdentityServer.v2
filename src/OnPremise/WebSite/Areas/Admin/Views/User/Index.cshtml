@@ -2,40 +2,114 @@
 @model UsersViewModel
 
 @{
-    ViewBag.Title = Index_cshtml.Users;
+	ViewBag.Title = Index_cshtml.Users;
 }
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(Index_cshtml.ErrorDeletingUsers)
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary(Index_cshtml.ErrorDeletingUsers)
 
-    <fieldset class="editor">
-        <legend>@ViewBag.Title</legend>
-        @{
-            var list = Model.UsersDeleteList;
-        }
-        @for (int i = 0; i < list.Length; i++)
-        {
-            <div>
-                @Html.HiddenFor(x => list[i].Username)
-                @Html.LabelFor(x => list[i].Delete, list[i].Username)
-                @Html.CheckBoxFor(x => list[i].Delete)
-                @Html.ActionLink(Index_cshtml.Roles, "Roles", new{username=list[i].Username})
-                @Html.ActionLink("password", "ChangePassword", new { username = list[i].Username })
-                @if (Model.IsProfileEnabled)
-                {
-                    @Html.ActionLink(Index_cshtml.Profile, "Profile", new{username=list[i].Username})
-                }
-                @if (Model.IsOAuthRefreshTokenEnabled)
-                {
-                    @Html.ActionLink("tokens", "Index", "OAuthRefreshToken", new{username=list[i].Username}, null)
-                }
-            </div>
-        }
-        <div class="buttons">
-            <button type="submit" name="action" value="delete">@Index_cshtml.DeleteSelected</button>
-            <button type="submit" name="action" value="new">@Index_cshtml.New</button>
-            <button type="reset">@Index_cshtml.Cancel</button>
-        </div>
-    </fieldset>
+	<fieldset class="editor">
+		<legend>@ViewBag.Title</legend>
+	
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					@if (Model.EmailIsUsername) {
+					<th>Email</th>
+					}
+					else {
+					<th>Username</th>
+					<th>Email</th>
+					}
+					<th>Tenant</th>
+					<th>Created</th>
+					<th>Verified</th>
+					<th>Login Allowed</th>
+					<th>Account Closed</th>
+				</tr>
+			</thead>
+			<tbody>
+				@{
+					var list = Model.UsersDeleteList; 
+				}
+				@for (int i = 0; i < Model.Users.Count(); i++) {
+					var user = Model.Users.ElementAt(i); 
+		
+				<tr>
+					<td>@Html.HiddenFor(x => list[i].Username)@Html.CheckBoxFor(x => list[i].Delete)</td>
+					@if (Model.EmailIsUsername) {
+					<td>@Html.ActionLink(user.Email, "Detail", new { username = user.Username })</td>
+					}
+					else {
+					<td>@Html.ActionLink(user.Username, "Detail", new { username = user.Username })</td>
+					<td>@user.Email</td>
+					}
+					<td>@user.Tenant</td>
+					<td>@user.Created</td>
+					<td>@user.IsAccountVerified</td>
+					<td>@user.IsLoginAllowed</td>
+					<td>@user.IsAccountClosed</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+
+		<div class="buttons">
+			<span class="pager" id="UsersListPager">
+				
+			</span>
+			@Html.EditorFor(c => c.Filter) <button id="FilterButton">Find</button>
+		</div>
+
+		<div class="buttons">
+			<button type="submit" name="action" value="delete">@Index_cshtml.DeleteSelected</button>
+			<button type="submit" name="action" value="new">@Index_cshtml.New</button>
+			<button type="reset">@Index_cshtml.Cancel</button>
+		</div>
+	</fieldset>
+}
+@section scripts
+{
+	<script type="text/javascript">
+		(function () {
+			var total = @Model.Total,
+				size = @Model.Size,
+				getFilterAttr = function() {
+					var filter = $('#Filter').val();
+					if (filter)
+						return 'filter=' + encodeURIComponent(filter); 
+				},
+				filterNav = function() {
+					window.location = '@Url.Action("Index")?' + getFilterAttr();
+				},
+				pagedNav = function(page) {
+					var filter = getFilterAttr(); 
+					window.location = '@Url.Action("Index")?page=' + page + (filter ? ('&' + getFilterAttr()) : ''); 
+				}
+				
+			var pager = $('#UsersListPager'); 
+			var pages = Math.ceil(total / size); 
+
+			for (var i = 0; i < pages; i++) {
+				pager.append($('<button>').text(i+1).data('page', i).click(function(e) {
+					e.preventDefault(); 
+					pagedNav($(this).data('page')); 
+				})); 
+			}
+
+			$("#Filter").focus().keypress(function (e) {
+				if (e.which == 13) {
+					e.preventDefault();
+					filterNav(); 
+				}
+			});
+
+			$('#FilterButton').click(function (e) {
+				e.preventDefault();
+				filterNav(); 
+			});
+		})();
+	</script>
 }

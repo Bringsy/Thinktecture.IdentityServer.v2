@@ -8,6 +8,15 @@
 	
 	<fieldset class="editor small signin">
 		<legend>Sing Up</legend>
+		@if (!BrockAllen.MembershipReboot.SecuritySettings.Instance.EmailIsUsername)
+		{
+			<div>
+				@Html.LabelFor(m => m.UserName)
+				@Html.TextBoxFor(m => m.UserName)
+				@Html.ValidationMessageFor(m => m.UserName)
+			</div>
+		}
+
 		<div>
 			@Html.LabelFor(m => m.Email)
 			@Html.TextBoxFor(m => m.Email)

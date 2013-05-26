@@ -15,6 +15,7 @@ namespace Thinktecture.IdentityServer.Web.ViewModels
         public string Email { get; set; }
 
         [ScaffoldColumn(false)]
+        [Display(Name = "User Name")]
         public string UserName { get; set; }
 
         [Required]

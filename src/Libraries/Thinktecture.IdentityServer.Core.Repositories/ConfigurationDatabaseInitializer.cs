@@ -41,7 +41,6 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                         CreateTestDelegationSettings().ForEach(d => context.Delegation.Add(d));
                         CreateTestClientCertificateSettings().ForEach(cc => context.ClientCertificates.Add(cc));
                         CreateTestClients().ForEach(c => context.Clients.Add(c));
-
                         return;
                     }
                 }

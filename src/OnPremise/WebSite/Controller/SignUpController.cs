@@ -5,7 +5,7 @@ using Thinktecture.IdentityServer.Web.ViewModels;
 
 namespace Thinktecture.IdentityServer.Web.Controllers
 {
-    
+
     public class SignUpController : Controller
     {
         UserAccountService userAccountService;
@@ -43,9 +43,8 @@ namespace Thinktecture.IdentityServer.Web.Controllers
             {
                 try
                 {
-                    var user = this.userAccountService.CreateAccount(
-                        (SecuritySettings.Instance.EmailIsUsername) ? model.Email : model.UserName,
-                        model.Password, model.Email);
+                    var userName = SecuritySettings.Instance.EmailIsUsername ? model.Email : model.UserName;
+                    var user = this.userAccountService.CreateAccount(userName, model.Password, model.Email);
 
                     // TODO: Add ui culture claim ...
                     user.AddClaim(System.IdentityModel.Claims.ClaimTypes.GivenName, model.GivenName);
