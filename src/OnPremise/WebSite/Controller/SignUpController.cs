@@ -47,8 +47,8 @@ namespace Thinktecture.IdentityServer.Web.Controllers
                     var user = this.userAccountService.CreateAccount(userName, model.Password, model.Email);
 
                     // TODO: Add ui culture claim ...
-                    user.AddClaim(System.IdentityModel.Claims.ClaimTypes.GivenName, model.GivenName);
-                    user.AddClaim(System.IdentityModel.Claims.ClaimTypes.Surname, model.Surname);
+                    //user.AddClaim(System.IdentityModel.Claims.ClaimTypes.GivenName, model.GivenName);
+                    //user.AddClaim(System.IdentityModel.Claims.ClaimTypes.Surname, model.Surname);
 
                     this.userAccountService.SaveChanges();
 

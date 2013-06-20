@@ -53,6 +53,7 @@ namespace Thinktecture.IdentityServer.Repositories
         {
             var claimTypes = new List<string>
             {
+                ClaimTypes.NameIdentifier,
                 ClaimTypes.Name,
                 ClaimTypes.Email,
                 ClaimTypes.Role

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Thinktecture.IdentityServer.Repositories.Sql.Configuration;
 
 namespace Thinktecture.IdentityServer.Repositories.Sql
 {

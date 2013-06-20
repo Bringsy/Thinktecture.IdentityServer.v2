@@ -2,20 +2,20 @@
 @model IEnumerable<string>
 
 @{
-    ViewBag.Title = SignOut_cshtml.SignOut;
-    ViewBag.HideMenu = true;
+	ViewBag.Title = SignOut_cshtml.SignOut;
+	ViewBag.HideMenu = true;
 }
 
-<h2>@SignOut_cshtml.SignOut</h2>
+<h3>@SignOut_cshtml.SignOut</h3>
 
 @if (!string.IsNullOrWhiteSpace(ViewBag.ReturnUrl))
 {
-    <p>
-        <a href='@ViewBag.ReturnUrl'>@SignOut_cshtml.ReturnToRP</a>
-    </p>
+	<p>
+		<a href='@ViewBag.ReturnUrl'>@SignOut_cshtml.ReturnToRP</a>
+	</p>
 }
 
 @foreach (var link in Model)
 {
-    <iframe style="visibility: hidden; width: 1px; height: 1px" src="@link?wa=wsignoutcleanup1.0"></iframe>
+	<iframe style="visibility: hidden; width: 1px; height: 1px" src="@link?wa=wsignoutcleanup1.0"></iframe>
 }

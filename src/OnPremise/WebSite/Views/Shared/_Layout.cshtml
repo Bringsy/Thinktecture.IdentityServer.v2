@@ -1,28 +1,92 @@
-﻿<!DOCTYPE html>
-<html>
+﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.Shared
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" prefix="og: http://ogp.me/ns#"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" prefix="og: http://ogp.me/ns#"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" prefix="og: http://ogp.me/ns#"><![endif]-->
+<!--[if gt IE 8] prefix="og: http://ogp.me/ns#"><!-->
+<html class="no-js" prefix="og: http://ogp.me/ns#">
+<!--<![endif]-->
 <head>
-    <meta charset="utf-8" />
-    <title>@ViewBag.Title</title>
-    <meta name="viewport" content="width=device-width" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    @Scripts.Render("~/bundles/js/modernizr")
-    @Styles.Render("~/bundles/css/site")
-    @RenderSection("styles", false)
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>@ViewBag.Title</title>
+	<meta name="description" content="Bringsy is a web based peer-to-peer (P2P) delivery service. Users hire a delivery person and send them on errands to retrieve and deliver items.">
+	<meta name="keywords" content="delivery, p2p, app, bringsy">
+	<meta name="robots" content="All" />
+	<meta name="revisit-after" content="7 days" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	@Styles.Render("~/content/styles")
+	@RenderSection("styles", required: false)
+	<link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+	<script src="@Url.Content("~/Scripts/custom.modernizr.js")"></script>
 </head>
+<body class="antialiased @ViewBag.BodyCssClass">
 
-<body>
+	<div id="header">
+		<div class=" contain-to-grid">
+			<nav class="top-bar">
+				<ul class="title-area">
+					<li class="name">
+						<h1><a href="/">Bringsy</a></h1>
+					</li>
+					<li class="toggle-topbar menu-icon"><a href="javascript:void(0);"><span>Menu</span></a></li>
+				</ul>
+				<section class="top-bar-section">
+					<ul class="left">
+						<!--<li><a href="/">Home</a></li>
+						<li><a href="/about">About</a></li>
+						<li><a href="/help">Help</a></li>-->
+					</ul>
+					<ul class="right">
+						<!--<li><a href="/">Home</a></li>-->
 
-    @Html.Partial("_Banner")
-    @if (!(ViewBag.HideMenu == true))
-    {
-        @Html.Partial("_Menu")
-    }
 
-    <section id="main-section">
-        @RenderBody()
-    </section>
 
-    @Scripts.Render("~/bundles/js/jquery")
-    @RenderSection("scripts", false)
+						@if (ViewBag.IsSignedIn)
+	  {
+							<li class="has-dropdown">
+								@Html.ActionLink(Context.User.Identity.Name, "Index", "Home", new { area = "Account" }, null)
+								<ul class="dropdown">
+									@if (ViewBag.IsAdministrator)
+		 {
+										<li>@Html.ActionLink("Administration", "Index", "Home", new { area = "Admin" }, null)</li>
+		 }
+									<li>@Html.ActionLink("Sign out", "Index", "SignOut", new { area = "" }, null)</li>
+								</ul>
+							</li>
+	  }
+	  else
+	  {
+							<li><a href="@Url.Action("Index", "SignIn", new { area = "" }, null)@HttpContext.Current.Request.Url.Query">Sign in</a></li>
+							<li><a href="@Url.Action("Index", "SignUp", new { area = "" }, null)@HttpContext.Current.Request.Url.Query">Sign up</a></li>
+	  }
+
+					</ul>
+				</section>
+			</nav>
+		</div>
+	</div>
+	<div id="content">
+		<div class="row">
+			<div class="large-12 small-12 columns">
+				@RenderBody()
+			</div>
+		</div>
+	</div>
+
+	<div class="row full-width">
+		<div class="large-12 columns">
+			<hr />
+			<p>© Bringsy, Inc.</p>
+		</div>
+	</div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"><\/script>')</script>
+	@Scripts.Render("~/content/scripts")
+	<script type="text/javascript">
+		$(document).foundation();
+	</script>
+	@RenderSection("scripts", required: false)
 </body>
 </html>

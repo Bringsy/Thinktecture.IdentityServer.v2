@@ -31,11 +31,11 @@ namespace Thinktecture.IdentityServer.Web.ViewModels
 
         public string ReturnUrl { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Given Name")]
         public string GivenName { get; set; }
 
-        [Required]
+        // [Required]
         [Display(Name = "Surname")]
         public string Surname { get; set; }
 

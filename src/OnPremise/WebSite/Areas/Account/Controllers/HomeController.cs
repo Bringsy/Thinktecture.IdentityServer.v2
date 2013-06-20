@@ -12,7 +12,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account.Controllers
 
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "General");
+            return RedirectToAction("Index", "ChangePassword");
         }
 
         public ActionResult Random()

@@ -1,57 +1,79 @@
-﻿@model Thinktecture.IdentityServer.Web.ViewModels.SignUpModel
+﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.Account
+@using Thinktecture.IdentityServer.Web.Utility
+@model Thinktecture.IdentityServer.Web.ViewModels.SignUpModel
 
-@using (Html.BeginForm())
+@{
+	ViewBag.Title = "Sign up";
+	if (Model.IsSigninRequest)
+	{
+		ViewBag.HideMenu = true;
+	}
+}
+
+<h3>Sign up</h3>
+
+@if (User.Identity.IsAuthenticated)
 {
+	<div data-alert class="alert-box">
+		@string.Format(SignIn_cshtml.UnauthorizedAuthenticatedUser, User.Identity.Name)
+		<a href="#" class="close">&times;</a>
+	</div>
+}
+
+<div class="row">
+	<div class="large-5 small-12 columns">
+
+		@using (Html.BeginForm())
+  {
+			@Html.ValidationSummary(true, "Please correct the following errors")
+			@Html.AntiForgeryToken()
 	
-	@Html.ValidationSummary("Please correct the following errors")
-	@Html.AntiForgeryToken()
-	
-	<fieldset class="editor small signin">
-		<legend>Sing Up</legend>
-		@if (!BrockAllen.MembershipReboot.SecuritySettings.Instance.EmailIsUsername)
-		{
+	  if (!BrockAllen.MembershipReboot.SecuritySettings.Instance.EmailIsUsername)
+	  {
 			<div>
 				@Html.LabelFor(m => m.UserName)
 				@Html.TextBoxFor(m => m.UserName)
 				@Html.ValidationMessageFor(m => m.UserName)
 			</div>
-		}
+	  }
 
-		<div>
-			@Html.LabelFor(m => m.Email)
-			@Html.TextBoxFor(m => m.Email)
-			@Html.ValidationMessageFor(m => m.Email)
-		</div>
+			<div>
+				@Html.LabelFor(m => m.Email)
+				@Html.TextBoxFor(m => m.Email)
+				@Html.ValidationMessageFor(m => m.Email)
+			</div>
 
-		<div>
-			@Html.LabelFor(m => m.GivenName)
-			@Html.TextBoxFor(m => m.GivenName)
-			@Html.ValidationMessageFor(m => m.GivenName)
-		</div>
+			<div>
+				@Html.LabelFor(m => m.Password)
+				@Html.PasswordFor(m => m.Password)
+				@Html.ValidationMessageFor(m => m.Password)
+			</div>
 
-		<div>
-			@Html.LabelFor(m => m.Surname)
-			@Html.TextBoxFor(m => m.Surname)
-			@Html.ValidationMessageFor(m => m.Surname)
-		</div>
+			<div>
+				@Html.LabelFor(m => m.PasswordRepeat)
+				@Html.PasswordFor(m => m.PasswordRepeat)
+				@Html.ValidationMessageFor(m => m.PasswordRepeat)
+			</div>
 
-		<div>
-			@Html.LabelFor(m => m.Password)
-			@Html.PasswordFor(m => m.Password)
-			@Html.ValidationMessageFor(m => m.Password)
-		</div>
+			<div class="buttons">
+				<input type="submit" value="Sign up" class="button" />
+			</div>
+  }
 
-		<div>
-			@Html.LabelFor(m => m.PasswordRepeat)
-			@Html.PasswordFor(m => m.PasswordRepeat)
-			@Html.ValidationMessageFor(m => m.PasswordRepeat)
-		</div>
+	</div>
+	<div class="large-1 small-12 columns"></div>
+	<div class="large-5 small-12 columns">
+	</div>
+</div>
+<div>
+	<hr />
+	<a href="@Html.Action("index", "passwordreset")@HttpContext.Current.Request.Url.Query">Forgot your password?</a> /
+	<a href="mailto:info@bringsy.com?subject=Sign%20in%20problem">Report sign up problem</a>
+</div>
 
-		<div class="buttons">
-			<input type="submit" value="Sign Up" />
-		</div>
-	</fieldset>
-}
+
+
+
 
 @section scripts
 {

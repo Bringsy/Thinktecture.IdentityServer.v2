@@ -1,66 +1,87 @@
 ﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.Account
+@using Thinktecture.IdentityServer.Web.Utility
 @model Thinktecture.IdentityServer.Web.ViewModels.SignInModel
 
 @{
-	ViewBag.Title = SignIn_cshtml.UsernamePasswordSignIn;
+	ViewBag.Title = "Sign in";
 	if (Model.IsSigninRequest)
 	{
 		ViewBag.HideMenu = true;
 	}
 }
 
+<h3>Sign in</h3>
+
 @if (User.Identity.IsAuthenticated)
 {
-	<h2>@string.Format(SignIn_cshtml.UnauthorizedAuthenticatedUser, User.Identity.Name)</h2>
+	<div data-alert class="alert-box">
+		@string.Format(SignIn_cshtml.UnauthorizedAuthenticatedUser, User.Identity.Name)
+		<a href="#" class="close">&times;</a>
+	</div>
 }
 
-@using (Html.BeginForm())
-{
-	@Html.ValidationSummary(true, SignIn_cshtml.SignInWasUnsuccessful)
-	<fieldset class="editor small signin">
-		<legend>@SignIn_cshtml.Login</legend>
+<div class="row">
+	<div class="large-5 small-12 columns">
 
-		@if (BrockAllen.MembershipReboot.SecuritySettings.Instance.EmailIsUsername)
-		{
+		@using (Html.BeginForm())
+  {
+			@Html.ValidationSummary(true, SignIn_cshtml.SignInWasUnsuccessful)
+			
+	
+	
+	  if (BrockAllen.MembershipReboot.SecuritySettings.Instance.EmailIsUsername)
+	  {
 			<div>
 				@Html.LabelFor(m => m.Email)
 				@Html.TextBoxFor(m => m.Email)
 				@Html.ValidationMessageFor(m => m.Email)
 			</div>
-		}
-		else {
+	  }
+	  else
+	  {
 			<div>
 				@Html.LabelFor(m => m.UserName)
 				@Html.TextBoxFor(m => m.UserName)
 				@Html.ValidationMessageFor(m => m.UserName)
 			</div> 
-		}
+	  }
 
-		<div>
-			@Html.LabelFor(m => m.Password)
-			@Html.PasswordFor(m => m.Password)
-			@Html.ValidationMessageFor(m => m.Password)
-		</div>
+			<div>
+				@Html.LabelFor(m => m.Password)
+				@Html.PasswordFor(m => m.Password)
+				@Html.ValidationMessageFor(m => m.Password)
+			</div>
 
-		<div>
-			@Html.LabelFor(m => m.EnableSSO)
-			@Html.CheckBoxFor(m => m.EnableSSO)
-		</div>
+			<div>
+				<div style="float: left; padding-right: 1em;">
+					@Html.LabelFor(m => m.EnableSSO)
+				</div>
+				<div style="float: left">
+					@Html.CheckBoxFor(m => m.EnableSSO)
+				</div>
+				<div style="clear: both"></div>
+			</div>
 
-		<div class="buttons">
-			<input type="submit" value="@SignIn_cshtml.SignIn" />
-		</div>
+			<div class="buttons">
+				<input type="submit" value="@SignIn_cshtml.SignIn" class="button"/>
+			</div>
+	
+			<div style="font-size: 1.051em;">
+				You don't have a Bringsy account? 
+				<a href="@Url.Action("index", "signup")@HttpContext.Current.Request.Url.Query">Sign up now!</a>
+			</div>
+  }
 
-		<div>
-			@Html.ActionLink("Forgot password?", "index", "passwordreset", new { area = "" }, null)
-			@if (Model.ShowClientCertificateLink)
-   { 
-				<br />
-				@Html.ActionLink(SignIn_cshtml.UseClientCertificate, "CertificateSignIn", new { returnUrl = Model.ReturnUrl }) 
-   }
-		</div>
-	</fieldset>	
-}
+	</div>
+	<div class="large-1 small-12 columns"></div>
+	<div class="large-5 small-12 columns">
+	</div>
+</div>
+<div>
+	<hr />
+	<a href="@Url.Action("index", "passwordreset")@HttpContext.Current.Request.Url.Query">Forgot your password?</a> /
+	<a href="mailto:info@bringsy.com?subject=Sign%20in%20problem">Report sign in problem</a>
+</div>
 
 @section scripts
 {

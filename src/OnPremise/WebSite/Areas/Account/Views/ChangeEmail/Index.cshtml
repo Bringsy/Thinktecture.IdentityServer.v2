@@ -5,11 +5,10 @@
 
 @using (Html.BeginForm())
 {
-	@Html.ValidationSummary("Error")
+	@Html.ValidationSummary(true, "Please correct the following errors")
 	@Html.AntiForgeryToken()
 
-	<fieldset class="editor small">
-		<legend>@ViewBag.Title</legend>
+
 
 		<div>
 			@Html.LabelFor(m => m.NewEmail)
@@ -20,7 +19,6 @@
 		<div class="buttons">
 			<button>Change Email</button>
 		</div>
-	</fieldset>
 }
 
 @section scripts

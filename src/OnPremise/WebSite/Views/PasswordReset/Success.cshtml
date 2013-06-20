@@ -1,9 +1,10 @@
-﻿@{
+﻿@using Thinktecture.IdentityServer.Web.Utility
+@{
     ViewBag.Title = "Password Changed";
 }
 
 <h2>Password Changed</h2>
 <p>
     Your password has been changed.
-    You can now login @Html.ActionLink("here", "index", "signin").
+    You can now login <a href="@Url.Action("index", "signin")@HttpContext.Current.Request.Url.Query">here</a>.
 </p>

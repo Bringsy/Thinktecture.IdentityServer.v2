@@ -1,28 +1,29 @@
 ﻿@model  Thinktecture.IdentityServer.Web.ViewModels.PasswordResetInputModel
 @{
-    ViewBag.Title = "Reset Password";
+	ViewBag.Title = "Reset Password";
 }
 
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary("Please correct the following errors")
-    @Html.AntiForgeryToken()
+<h3>@ViewBag.Title</h3>
 
-    <fieldset class="editor small">
-        <legend>@ViewBag.Title</legend>
+<div class="row">
+	<div class="large-5 small-12 columns">
+		@using (Html.BeginForm())
+  {
+			@Html.ValidationSummary(true, "Please correct the following errors")
+			@Html.AntiForgeryToken()
 
-        <div>
-			@Html.LabelFor(m => m.Email)
-			@Html.TextBoxFor(m => m.Email)
-			@Html.ValidationMessageFor(m => m.Email)
-		</div>
+			<div>
+				@Html.LabelFor(m => m.Email)
+				@Html.TextBoxFor(m => m.Email)
+				@Html.ValidationMessageFor(m => m.Email)
+			</div>
 
-        <div class="buttons">
-            <button>Submit</button>
-        </div>
-
-    </fieldset>
-}
+			<div class="buttons">
+				<button>Submit</button>
+			</div>
+  }
+	</div>
+</div>
 
 @section scripts
 {

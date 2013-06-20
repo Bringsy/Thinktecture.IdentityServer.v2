@@ -5,7 +5,7 @@
 
 @using (Html.BeginForm())
 {
-	@Html.ValidationSummary("Error")
+	@Html.ValidationSummary(true, "Please correct the following errors")
 	@Html.AntiForgeryToken()
 	@Html.HiddenFor(m => m.Key)
 

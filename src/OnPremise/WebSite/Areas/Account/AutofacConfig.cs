@@ -30,7 +30,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account
             return baseUrl;
         }
     }
-
+    
     public static class AutofacConfig
     {
         internal static void Register()
@@ -51,7 +51,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account
             builder.RegisterType<NopPasswordPolicy>().As<IPasswordPolicy>();
             //builder.Register<IPasswordPolicy>(x=>new BasicPasswordPolicy { MinLength = 4 });
 
-            builder.RegisterType<NotificationService>().As<INotificationService>();
+            builder.RegisterType<CustomNotificationService>().As<INotificationService>();
 
             builder.Register<ApplicationInformation>(
                 x =>

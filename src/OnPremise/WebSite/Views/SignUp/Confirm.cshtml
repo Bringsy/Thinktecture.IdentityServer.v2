@@ -1,27 +1,28 @@
-﻿@model bool
+﻿@using Thinktecture.IdentityServer.Web.Utility
+@model bool
 @{
     ViewBag.Title = "Confirm";
 }
 
 @if (Model)
 {
-    <h2>Registration Confirmed</h2>
+    <h3>Registration Confirmed</h3>
     <p>
         Your account is confirmed. You can now login 
-        @Html.ActionLink("here", "index", "signin").
+		<a href="@Html.Action("index", "signin")@HttpContext.Current.Request.Url.Query">here</a>.
     </p>
 }
 else
 {
-    <h2>Error confirming registration</h2>
+    <h3>Error confirming registration</h3>
     <p>
         There was an error confirming the registration. If you have already confirmed your account
         then you should recieve a confirmation email and should be able to login 
-        @Html.ActionLink("here", "index", "signin").
+        <a href="@Html.Action("index", "signin")@HttpContext.Current.Request.Url.Query">here</a>
     </p>
     <p>
         If you would like to re-register click 
-        @Html.ActionLink("here", "index", "singup").
+        <a href="@Html.Action("index", "signup")@HttpContext.Current.Request.Url.Query">here</a>
     </p>
 }
 <p>Thanks!</p>

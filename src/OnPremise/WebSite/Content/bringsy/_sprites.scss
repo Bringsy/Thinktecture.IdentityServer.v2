@@ -1,0 +1,26 @@
+.sprite {
+	background-image: url("images/sprite.png");
+    background-repeat: no-repeat;   
+    list-style: none outside none;
+	text-decoration: inherit;
+	-webkit-font-smoothing: antialiased;
+	display: inline;
+	width: auto;
+	height: auto;
+	line-height: normal;
+	vertical-align: baseline;
+	margin-top: 0;
+	vertical-align: -15%;
+}	
+
+i.sprite {
+	display:inline-block; 
+	width: 24px ; height: 24px; 
+}
+
+.sprite-chat{background-position:0px 0px ; width: 24px ; height: 24px; }
+.sprite-rating{background-position:-34px 0px ; width: 24px ; height: 24px; }
+.sprite-mail{background-position:-68px 0px ; width: 24px ; height: 24px; }
+.sprite-user{background-position:-102px 0px ; width: 24px ; height: 24px; }
+.sprite-cash{background-position:-136px 0px ; width: 24px ; height: 24px; }
+.sprite-contact{background-position:-170px 0px ; width: 24px ; height: 24px; }

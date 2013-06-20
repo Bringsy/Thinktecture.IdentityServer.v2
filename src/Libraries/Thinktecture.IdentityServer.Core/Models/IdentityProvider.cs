@@ -27,8 +27,7 @@ namespace Thinktecture.IdentityServer.Models
 
         [Display(Order = 4, ResourceType = typeof (Resources.Models.IdentityProvider), Name = "ShowInHrdSelection", Description = "ShowInHrdSelectionDescription")]
         public bool ShowInHrdSelection { get; set; }
-
-        [Required]
+      
         [Display(ResourceType = typeof(Resources.Models.RelyingParty), Name = "Realm", Description = "RealmDescription")]
         [AbsoluteUri]
         public Uri Realm { get; set; }

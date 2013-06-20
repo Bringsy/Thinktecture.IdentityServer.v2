@@ -1,4 +1,5 @@
-﻿@model bool
+﻿@using Thinktecture.IdentityServer.Web.Utility
+@model bool
 @{
     ViewBag.Title = "Cancel";
 }
@@ -8,7 +9,7 @@
     <h2>Registration Cancelled</h2>
     <p>
         Your account has been closed.
-        If you would like to re-register click @Html.ActionLink("here", "index", "signup").
+        If you would like to re-register click <a href="@Url.Action("index", "signup")@HttpContext.Current.Request.Url.Query">here</a>.
     </p>
     <p>Thanks!</p>
 }

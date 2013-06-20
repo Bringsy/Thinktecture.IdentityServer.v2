@@ -554,7 +554,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
             entity.ClientID = idp.ClientID;
             entity.ClientSecret = idp.ClientSecret;
             entity.OAuth2ProviderType = (int?)idp.ProviderType;
-            entity.Realm = idp.Realm.AbsoluteUri; 
+            entity.Realm = idp.Realm != null ? idp.Realm.AbsoluteUri : null; 
         }
 
         #endregion

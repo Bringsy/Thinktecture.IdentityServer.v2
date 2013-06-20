@@ -120,7 +120,7 @@ namespace Thinktecture.IdentityServer.Protocols.OAuth2
             var handler = new JWTSecurityTokenHandler();
             var token = handler.ReadToken(assertion) as JWTSecurityToken;
 
-            var validationParams = new TokenValidationParameters
+            var validationParams = new Microsoft.IdentityModel.Tokens.JWT.TokenValidationParameters
             {
                 AudienceUriMode = System.IdentityModel.Selectors.AudienceUriMode.Never,
                 ValidateExpiration = true,

@@ -1,28 +1,29 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<nav class="config-menu">
-    @Html.Action("Index", "Menu")
-</nav>
-
-<section class="config-editor">
-    @if (TempData["Message"] != null)
-    {
-        <div class="message">@TempData["Message"]</div>
-    }
-    @RenderBody()
-</section>
+<h3>@ViewBag.Title</h3>
+<div class="row">
+	<div class="large-3 small-12 columns">
+		@Html.Action("Index", "Menu")
+	</div>
+	<div class="large-9 small-12 columns">
+		@if (TempData["Message"] != null)
+		      {
+			      <div class="message">@TempData["Message"]</div>
+		      }
+		@RenderBody()
+	</div>
+</div>
 
 @section styles
 {
-    <link href="~/Areas/Account/Content/Account.css" rel="stylesheet" />
+	<link href="~/Areas/Account/Content/Account.css" rel="stylesheet" />
 }
 @section scripts
 {
-    <script>
-        var cryptoRandomUrl = '@Url.Action("Random", "Home")';
-    </script>
-    <script src="~/Areas/Account/Scripts/Account.js"></script>
-    @RenderSection("scripts", false)
+	<script>
+		var cryptoRandomUrl = '@Url.Action("Random", "Home")';
+	</script>
+	<script src="~/Areas/Account/Scripts/Account.js"></script>
+	@RenderSection("scripts", false)
 }
