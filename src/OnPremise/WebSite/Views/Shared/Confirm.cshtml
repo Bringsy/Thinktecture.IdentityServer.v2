@@ -7,9 +7,9 @@
 
 @using (Html.BeginForm())
 { 
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
     
+    @Html.Partial("ValidationSummary", ViewData.ModelState)
+    @Html.AntiForgeryToken()
     <label>@Confirm_cshtml.AreYouSure</label>
     <br />
     <br />

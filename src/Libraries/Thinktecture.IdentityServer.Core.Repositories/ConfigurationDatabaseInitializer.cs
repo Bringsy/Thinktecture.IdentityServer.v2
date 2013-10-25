@@ -170,7 +170,7 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                 SiteName = "Bringsy Account",
                 IssuerUri = "urn:bringsyidsrv",
                 IssuerContactEmail = "russlan.akiev@bringsy.com",
-                DefaultWSTokenType = TokenTypes.JsonWebToken,
+                DefaultWSTokenType = TokenTypes.Saml2TokenProfile11,
                 DefaultHttpTokenType = TokenTypes.JsonWebToken,
                 DefaultTokenLifetime = 10,
                 MaximumTokenLifetime = 24,
@@ -283,6 +283,13 @@ namespace Thinktecture.IdentityServer.Repositories.Sql
                     Enabled = true,
                     Realm = "urn:bringsyweb",
                     ReplyTo = "https://bringsy.com"
+                },
+                new RelyingParties
+                {
+                    Name = "Bringsy Web",
+                    Enabled = true,
+                    Realm = "urn:bringsywebtest",
+                    ReplyTo = "https://bringsy.econduct.de"
                 },
                 new RelyingParties
                 {

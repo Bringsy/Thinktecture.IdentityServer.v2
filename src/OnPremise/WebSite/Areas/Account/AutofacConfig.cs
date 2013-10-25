@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Configuration;
+using Autofac;
 using Autofac.Integration.Mvc;
 using BrockAllen.MembershipReboot;
 using System;
@@ -30,7 +31,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account
             return baseUrl;
         }
     }
-    
+
     public static class AutofacConfig
     {
         internal static void Register()
@@ -46,12 +47,12 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account
                 .InstancePerHttpRequest();
 
             //builder.RegisterType<NopMessageDelivery>().As<IMessageDelivery>();
-            builder.RegisterType<SmtpMessageDelivery>().As<IMessageDelivery>();
+            builder.RegisterType<SmtpHtmlMessageDelivery>().As<IMessageDelivery>();
 
             builder.RegisterType<NopPasswordPolicy>().As<IPasswordPolicy>();
             //builder.Register<IPasswordPolicy>(x=>new BasicPasswordPolicy { MinLength = 4 });
 
-            builder.RegisterType<CustomNotificationService>().As<INotificationService>();
+            builder.RegisterType<TemplateNotificationService>().As<INotificationService>();
 
             builder.Register<ApplicationInformation>(
                 x =>
@@ -61,7 +62,8 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account
 
                     return new ApplicationInformation
                     {
-                        ApplicationName = "Test",
+                        EmailSignature = ConfigurationManager.AppSettings["EmailSignature"],
+                        ApplicationName = ConfigurationManager.AppSettings["ApplicationName"],
                         LoginUrl = baseUrl + "SignIn",
                         VerifyAccountUrl = baseUrl + "SignUp/Confirm/",
                         CancelNewAccountUrl = baseUrl + "SignUp/Cancel/",

@@ -81,16 +81,21 @@ namespace Thinktecture.IdentityServer.Protocols.WSFederation
             FederatedAuthentication.SessionAuthenticationModule.SignOut();
 
             // check for return url
-            if (!string.IsNullOrWhiteSpace(message.Reply))
+            if (!string.IsNullOrWhiteSpace(message.Context))
             {
-                ViewBag.ReturnUrl = message.Reply;
+                var qs = System.Web.HttpUtility.ParseQueryString(message.Context);
+                if (!string.IsNullOrWhiteSpace(qs["ru"]))
+                    ViewBag.ReturnUrl = qs["ru"];
             }
+
+            if (string.IsNullOrWhiteSpace(ViewBag.ReturnUrl))
+                ViewBag.ReturnUrl = message.Reply;
 
             // check for existing sign in sessions
             var mgr = new SignInSessionsManager(HttpContext, _cookieName);
             var realms = mgr.GetEndpoints();
             mgr.ClearEndpoints();
-            
+
             return View("Signout", realms);
         }
         #endregion

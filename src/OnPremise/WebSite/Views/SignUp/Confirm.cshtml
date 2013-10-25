@@ -9,7 +9,7 @@
     <h3>Registration Confirmed</h3>
     <p>
         Your account is confirmed. You can now login 
-		<a href="@Html.Action("index", "signin")@HttpContext.Current.Request.Url.Query">here</a>.
+		<a href="@Url.Action("index", "signin")@HttpContext.Current.Request.Url.Query">here</a>.
     </p>
 }
 else
@@ -18,11 +18,11 @@ else
     <p>
         There was an error confirming the registration. If you have already confirmed your account
         then you should recieve a confirmation email and should be able to login 
-        <a href="@Html.Action("index", "signin")@HttpContext.Current.Request.Url.Query">here</a>
+        <a href="@Url.Action("index", "signin")@HttpContext.Current.Request.Url.Query">here</a>
     </p>
     <p>
         If you would like to re-register click 
-        <a href="@Html.Action("index", "signup")@HttpContext.Current.Request.Url.Query">here</a>
+        <a href="@Url.Action("index", "signup")@HttpContext.Current.Request.Url.Query">here</a>
     </p>
 }
 <p>Thanks!</p>

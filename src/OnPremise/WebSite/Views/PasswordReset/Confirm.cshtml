@@ -7,7 +7,7 @@
 	<div class="large-5 small-12 columns">
 		@using (Html.BeginForm())
   {
-			@Html.ValidationSummary(true, "Please correct the following errors")
+			@Html.Partial("ValidationSummary", ViewData.ModelState)
 			@Html.AntiForgeryToken()
 			@Html.HiddenFor(m => m.Key)
 

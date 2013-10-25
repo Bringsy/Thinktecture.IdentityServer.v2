@@ -25,7 +25,7 @@
 
 		@using (Html.BeginForm())
   {
-			@Html.ValidationSummary(true, "Please correct the following errors")
+			@Html.Partial("ValidationSummary", ViewData.ModelState)
 			@Html.AntiForgeryToken()
 	
 	  if (!BrockAllen.MembershipReboot.SecuritySettings.Instance.EmailIsUsername)
@@ -67,19 +67,19 @@
 </div>
 <div>
 	<hr />
-	<a href="@Html.Action("index", "passwordreset")@HttpContext.Current.Request.Url.Query">Forgot your password?</a> /
+	<a href="@Url.Action("index", "passwordreset")@HttpContext.Current.Request.Url.Query">Forgot your password?</a> /
 	<a href="mailto:info@bringsy.com?subject=Sign%20in%20problem">Report sign up problem</a>
 </div>
-
-
-
-
 
 @section scripts
 {
 	<script type="text/javascript">
 		$(function () {
 			$("#Email").focus();
+			var validator = $("form").data("validator");
+			if (validator) {
+				validator.settings.onkeyup = false; // disable validation on keyup
+			}
 		});
 	</script>
 }

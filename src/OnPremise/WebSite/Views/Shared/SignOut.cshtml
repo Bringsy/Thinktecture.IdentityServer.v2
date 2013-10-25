@@ -19,3 +19,14 @@
 {
 	<iframe style="visibility: hidden; width: 1px; height: 1px" src="@link?wa=wsignoutcleanup1.0"></iframe>
 }
+
+
+@section scripts
+{
+	<div>@ViewBag.ReturnUrl</div>
+	<script type="text/javascript">
+		$(function () {
+			@Html.Raw(!string.IsNullOrWhiteSpace(ViewBag.ReturnUrl) ? "window.location = '" + ViewBag.ReturnUrl + "';" : "")
+		});
+	</script>
+}

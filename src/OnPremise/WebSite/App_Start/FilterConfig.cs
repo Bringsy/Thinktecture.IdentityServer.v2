@@ -8,6 +8,7 @@ namespace Thinktecture.IdentityServer.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters, IConfigurationRepository configuration)
         {
+            filters.Add(new DetectRpFilter());
             filters.Add(new HandleErrorAttribute());
             filters.Add(new GlobalViewModelFilter());
             filters.Add(new SslRedirectFilter(configuration.Global.HttpsPort));

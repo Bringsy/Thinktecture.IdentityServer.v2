@@ -13,7 +13,7 @@ $em-base: 16px !default;
 // We use these to control various global styles
 $body-bg: #fff !default;
 $body-font-color: #222 !default;
-$body-font-family: "Arvo", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif !default;
+$body-font-family: "Arvo", Arial, "Helvetica Neue", "Helvetica", Helvetica,  sans-serif !default;
 $body-font-weight: normal !default;
 $body-font-style: normal !default;
 
@@ -82,6 +82,8 @@ $include-html-magellan-classes: $include-html-classes !default;
 @function gridCalc($colNumber, $totalColumns) {
   @return percentage(($colNumber / $totalColumns));
 }
+
+
 
 
 //

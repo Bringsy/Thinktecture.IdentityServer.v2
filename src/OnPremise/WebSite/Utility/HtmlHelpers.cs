@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 using System.Web.Mvc;
+using Thinktecture.IdentityServer.Protocols;
+using Thinktecture.IdentityServer.Repositories;
 
 namespace Thinktecture.IdentityServer.Web.Utility
 {
@@ -19,7 +22,7 @@ namespace Thinktecture.IdentityServer.Web.Utility
             var name = html.ViewData.TemplateInfo.GetFullHtmlFieldName(prop.PropertyName);
             return ValidatorInternal(html, name, prop.Description);
         }
-        
+
         public static MvcHtmlString Validator(this HtmlHelper html, string name, string description = null)
         {
             return ValidatorInternal(html, name, description);
@@ -51,6 +54,27 @@ namespace Thinktecture.IdentityServer.Web.Utility
             }
 
             return MvcHtmlString.Empty;
+        }
+
+        public static string RelyingParty(this HtmlHelper helper, string path)
+        {
+            var replyTo = "https://bringsy.com/"; // read from default value configuration
+            var cooky = HttpContext.Current.Request.Cookies["idsrvlr"];
+            if (cooky != null)
+            {
+                var lastUsedRealm = cooky.Value;
+                if (!string.IsNullOrEmpty(lastUsedRealm))
+                {
+                    var authHelper = new AuthenticationHelper();
+                    var rp = authHelper.GetRelyingPartyDetails(lastUsedRealm);
+                    if (rp != null)
+                    {
+                        replyTo = rp.ReplyTo.ToString();
+                    }
+                }
+            }
+
+            return string.Format("{0}/{1}", replyTo.TrimEnd('/'), path.TrimStart('/'));
         }
     }
 }

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BrockAllen.MembershipReboot;
+using System;
 using System.Web;
-using BrockAllen.MembershipReboot;
 
 namespace Thinktecture.IdentityServer.Web.Areas.Account
 {
     public class CustomNotificationService : INotificationService
     {
-        IMessageDelivery messageDelivery;
-        ApplicationInformation appInfo;
+        readonly IMessageDelivery messageDelivery;
+        readonly ApplicationInformation appInfo;
+
         public CustomNotificationService(IMessageDelivery messageDelivery, ApplicationInformation appInfo)
         {
             this.messageDelivery = messageDelivery;
@@ -21,7 +20,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account
             msg = msg.Replace("{username}", user.Username);
             msg = msg.Replace("{email}", user.Email);
 
-            msg = msg.Replace("{applicationName}", appInfo.ApplicationName );
+            msg = msg.Replace("{applicationName}", appInfo.ApplicationName);
             msg = msg.Replace("{emailSignature}", appInfo.EmailSignature);
             msg = msg.Replace("{loginUrl}", appInfo.LoginUrl + HttpContext.Current.Request.Url.Query);
 
@@ -52,6 +51,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account
                 Subject = subject,
                 Body = body
             };
+
             this.messageDelivery.Send(msg);
         }
 
@@ -193,12 +193,12 @@ Thanks!
         {
             Tracing.Information(String.Format("[NotificationService.SendAccountDelete] {0}, {1}, {2}", user.Tenant, user.Username, user.Email));
 
-            var msg = GetAccountAccountDeleteFormat();
+            var msg = this.GetAccountDeleteFormat();
             var body = DoTokenReplacement(msg, user);
             DeliverMessage(user, "Account Closed", body);
         }
 
-        protected virtual string GetAccountAccountDeleteFormat()
+        protected virtual string GetAccountDeleteFormat()
         {
             return @"
 This email is to confirm that the account '{username}' has been closed for {applicationName}.
@@ -263,7 +263,6 @@ Thanks!
 {emailSignature}
 ";
         }
-
 
         public void SendChangeUsernameRequestNotice(UserAccount user)
         {

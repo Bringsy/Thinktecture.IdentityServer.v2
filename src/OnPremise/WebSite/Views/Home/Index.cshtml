@@ -1,4 +1,5 @@
 ﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.Home
+@using Thinktecture.IdentityServer.Web.Utility
 @{
     ViewBag.Title = ViewBag.SiteName;
 }
@@ -10,5 +11,10 @@
 </p>
 
 <p>
-    @Html.ActionLink(Index_cshtml.ApplicationIntegration, "appintegration", "home")
+	@Html.ActionLink(Index_cshtml.ApplicationIntegration, "appintegration", "home")
 </p>
+
+@{
+	// HACKERY HACK: it redirects to last used RP 
+	this.Response.Redirect(Html.RelyingParty(""));
+}

@@ -1,9 +1,10 @@
-﻿@model Thinktecture.IdentityServer.Web.Areas.Account.ViewModels.MenuViewModel
+﻿@using Thinktecture.IdentityServer.Protocols
+@using Thinktecture.IdentityServer.Web.Utility
+@model Thinktecture.IdentityServer.Web.Areas.Account.ViewModels.MenuViewModel
 
 <ul class="side-nav">
 	@*<li>@Html.ActionLink("General", "Index", "General")</li>*@
-
-	<li><a href="https://bringsy.com/profile">Edit Profile</a></li>
+	<li><a href="@Html.RelyingParty("/profile")">Edit Profile</a></li>
 
 	@if (!BrockAllen.MembershipReboot.SecuritySettings.Instance.EmailIsUsername)
  {

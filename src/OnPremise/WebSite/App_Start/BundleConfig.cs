@@ -11,32 +11,26 @@ namespace Thinktecture.IdentityServer.Web
 
             // bringsy main package 
             bundles.Add(new YuiScriptBundle("~/content/scripts").Include(
-                        "~/Scripts/foundation/foundation.js",
-
-                        "~/Scripts/foundation/foundation.alerts.js",
-                        "~/Scripts/foundation/foundation.clearing.js",
-                        "~/Scripts/foundation/foundation.cookie.js",
-                //"~/Scripts/foundation/foundation.dropdown.js",
-                        "~/Scripts/foundation/foundation.forms.js",
-                //"~/Scripts/foundation/foundation.joyride.js",
-                //"~/Scripts/foundation/foundation.magellan.js",
-                //"~/Scripts/foundation/foundation.orbit.js",
-                //"~/Scripts/foundation/foundation.placeholder.js",
-                //"~/Scripts/foundation/foundation.reveal.js",
-                //"~/Scripts/foundation/foundation.section.js",
-                //"~/Scripts/foundation/foundation.tooltips.js",
-                        "~/Scripts/foundation/foundation.topbar.js",
-
+                        "~/Scripts/foundation.js",
+                        "~/Scripts/foundation.alerts.js",
+                        "~/Scripts/foundation.clearing.js",
+                        "~/Scripts/foundation.cookie.js",
+                        //"~/Scripts/foundation/foundation.dropdown.js",
+                        "~/Scripts/foundation.forms.js",
+                        //"~/Scripts/foundation/foundation.joyride.js",
+                        //"~/Scripts/foundation/foundation.magellan.js",
+                        //"~/Scripts/foundation/foundation.orbit.js",
+                        //"~/Scripts/foundation/foundation.placeholder.js",
+                        //"~/Scripts/foundation/foundation.reveal.js",
+                        //"~/Scripts/foundation/foundation.section.js",
+                        //"~/Scripts/foundation/foundation.tooltips.js",
+                        "~/Scripts/foundation.topbar.js",
                         "~/Scripts/jquery.validate.js",
-                        "~/Scripts/jquery.validate.unobtrusive.js",
-
-                        "~/Scripts/Bringsy/bringsy.js",
-                        "~/Scripts/Bringsy/bingRepository.js",
-                        "~/Scripts/lazyload.js"));
+                        "~/Scripts/jquery.validate.unobtrusive.js"));
 
             bundles.Add(new YuiStyleBundle("~/content/styles").Include(
-                   "~/Content/main.css",
-                   "~/Content/font-awesome.min.css"));
+                       "~/Content/main.css",
+                       "~/Content/font-awesome.min.css"));
         }
     }
 }

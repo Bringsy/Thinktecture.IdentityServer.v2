@@ -1,0 +1,16 @@
+﻿@model ModelStateDictionary
+
+<div data-alert class="alert-box alert validation-summary @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors") " data-valmsg-summary="true">
+	
+	@(string.IsNullOrEmpty(ViewBag.Message) ? "Please, correct the following errors" : ViewBag.Message) 
+	<br /><br />
+
+	<ul>
+		@foreach (var modelError in Model.SelectMany(keyValuePair => keyValuePair.Value.Errors))
+		{
+			<li>@modelError.ErrorMessage</li>
+		}
+	</ul>
+
+	<a href="#" class="close">&times;</a>
+</div>

@@ -103,6 +103,7 @@
       <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activation" />
@@ -163,17 +164,16 @@
       <Private>True</Private>
       <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    
     <Reference Include="Web.Optimization">
       <HintPath>..\..\..\packages\Web.Optimization.0.0.7\lib\net40\Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="Web.Optimization.Bundles.YUI">
       <HintPath>..\..\..\packages\Web.Optimization.Bundles.YUI.0.0.7\lib\net40\Web.Optimization.Bundles.YUI.dll</HintPath>
-</Reference>
+    </Reference>
     <Reference Include="Thinktecture.IdentityModel, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Thinktecture.IdentityModel.3.0.0\lib\net45\Thinktecture.IdentityModel.dll</HintPath>
-	</Reference>
+    </Reference>
     <Reference Include="WebGrease, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
@@ -301,6 +301,8 @@
     <Compile Include="Areas\Account\Controllers\HomeController.cs" />
     <Compile Include="Areas\Account\Controllers\MenuController.cs" />
     <Compile Include="Areas\Account\CustomNotificationService.cs" />
+    <Compile Include="Areas\Account\SmtpHtmlMessageDelivery.cs" />
+    <Compile Include="Areas\Account\TemplateNotificationService.cs" />
     <Compile Include="Areas\Account\ViewModels\AccountModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -722,6 +724,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalFilter\DetectRpFilter.cs" />
     <Compile Include="GlobalFilter\GlobalViewModelFilter.cs" />
     <Compile Include="GlobalFilter\InitialConfigurationFilter.cs" />
     <Compile Include="GlobalFilter\SslRedirectFilter.cs" />
@@ -1122,8 +1125,10 @@
     </Content>
     <Content Include="Areas\Admin\Scripts\Admin.js" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fonts\Arvo-Regular.svg" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\images\ajax-loader.gif" />
+    <Content Include="Content\images\ajax-loader.png" />
     <Content Include="Content\images\body-bg.png" />
     <Content Include="Content\images\error.png" />
     <Content Include="Content\images\help.png" />
@@ -1138,8 +1143,6 @@
     <Content Include="Content\images\opacity_60.png" />
     <Content Include="Content\images\opacity_75.png" />
     <Content Include="Content\images\opacity_85.png" />
-    <Content Include="Content\images\sprite.png" />
-    <Content Include="Content\images\teaser-bg.jpg" />
     <Content Include="Content\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
@@ -1153,6 +1156,7 @@
     <Content Include="Content\normalize.css">
       <DependentUpon>normalize.scss</DependentUpon>
     </Content>
+    <Content Include="Content\normalize.min.css" />
     <Content Include="Content\Site.css">
       <DependentUpon>Site.less</DependentUpon>
     </Content>
@@ -1211,8 +1215,6 @@
     <Content Include="Areas\Admin\Views\Protocol\ADFSIntegration.cshtml" />
     <Content Include="Configuration\membershipReboot.config" />
     <Content Include="Areas\Admin\Views\User\Detail.cshtml" />
-    <Content Include="Content\bringsy\_frame.scss" />
-    <Content Include="Content\bringsy\_frontpage.scss" />
     <Content Include="Content\bringsy\_sprites.scss" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
@@ -1258,33 +1260,43 @@
     <Content Include="Content\main.scss" />
     <Content Include="Content\normalize.scss" />
     <Content Include="Content\Site.less" />
+    <Content Include="Content\bringsy\_styles.scss" />
+    <Content Include="Content\fonts\Arvo-Regular.eot" />
+    <Content Include="Content\fonts\Arvo-Regular.otf" />
+    <Content Include="Content\fonts\Arvo-Regular.ttf" />
+    <Content Include="Content\fonts\Arvo-Regular.woff" />
     <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
-    <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\custom.modernizr.js" />
-    <Content Include="Scripts\foundation\foundation.alerts.js" />
-    <Content Include="Scripts\foundation\foundation.clearing.js" />
-    <Content Include="Scripts\foundation\foundation.cookie.js" />
-    <Content Include="Scripts\foundation\foundation.dropdown.js" />
-    <Content Include="Scripts\foundation\foundation.forms.js" />
-    <Content Include="Scripts\foundation\foundation.joyride.js" />
-    <Content Include="Scripts\foundation\foundation.js" />
-    <Content Include="Scripts\foundation\foundation.magellan.js" />
-    <Content Include="Scripts\foundation\foundation.orbit.js" />
-    <Content Include="Scripts\foundation\foundation.placeholder.js" />
-    <Content Include="Scripts\foundation\foundation.reveal.js" />
-    <Content Include="Scripts\foundation\foundation.section.js" />
-    <Content Include="Scripts\foundation\foundation.tooltips.js" />
-    <Content Include="Scripts\foundation\foundation.topbar.js" />
-    <Content Include="Scripts\jquery-1.8.2.js" />
-    <Content Include="Scripts\jquery-1.8.2.min.js" />
-    <Content Include="Scripts\jquery-ui-1.9.0.js" />
-    <Content Include="Scripts\jquery-ui-1.9.0.min.js" />
-    <Content Include="Scripts\jquery.mobile-1.2.0.js" />
-    <Content Include="Scripts\jquery.mobile-1.2.0.min.js" />
+    <Content Include="Scripts\foundation.alerts.js" />
+    <Content Include="Scripts\foundation.clearing.js" />
+    <Content Include="Scripts\foundation.cookie.js" />
+    <Content Include="Scripts\foundation.forms.js" />
+    <Content Include="Scripts\foundation.js" />
+    <Content Include="Scripts\foundation.reveal.js" />
+    <Content Include="Scripts\foundation.section.js" />
+    <Content Include="Scripts\foundation.topbar.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.10.3.custom.js" />
+    <Content Include="Scripts\jquery.extensions.js" />
+    <Content Include="Scripts\jquery.form.custom.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\knockout-2.2.1.debug.js" />
+    <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Scripts\lazyload.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Templates\AccountCreate.html" />
+    <Content Include="Templates\AccountDelete.html" />
+    <Content Include="Templates\AccountVerified.html" />
+    <Content Include="Templates\ChangeEmailRequestNotice.html" />
+    <Content Include="Templates\UsernameChangedNotice.html" />
+    <Content Include="Templates\ResetPassword.html" />
+    <Content Include="Templates\PasswordChangeNotice.html" />
+    <Content Include="Templates\AccountNameReminder.html" />
+    <Content Include="Templates\EmailChangedNotice.html" />
     <Content Include="Views\HRD\HRD.cshtml" />
     <Content Include="Views\Shared\_Banner.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
@@ -1299,6 +1311,8 @@
     <Content Include="Views\SignUp\Confirm.cshtml" />
     <Content Include="Views\SignUp\Index.cshtml" />
     <Content Include="Views\SignUp\Success.cshtml" />
+    <Content Include="Views\Shared\ValidationSummary.cshtml" />
+    <Content Include="Views\Account\SignIn.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -1321,8 +1335,6 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.1.0.debug.js" />
-    <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

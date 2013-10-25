@@ -90,7 +90,7 @@ namespace Thinktecture.IdentityServer.Web
         {
             var accountService = DependencyResolver.Current.GetService<UserAccountService>();
 
-            CreateUserAccount("Kristina", accountService);
+            /*CreateUserAccount("Kristina", accountService);
             CreateUserAccount("Toni", accountService);
             CreateUserAccount("Misty", accountService);
             CreateUserAccount("Mae", accountService);
@@ -142,7 +142,7 @@ namespace Thinktecture.IdentityServer.Web
             CreateUserAccount("Sonya", accountService);
             CreateUserAccount("Jan", accountService);
             CreateUserAccount("Lee", accountService);
-
+            */
 
         }
     }

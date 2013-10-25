@@ -19,7 +19,7 @@ namespace Thinktecture.IdentityServer.Repositories
 
         public void CreateUser(string userName, string password, string email = null)
         {
-            var user = userService.CreateAccount(userName, password, email == null ? userName : email);
+            var user = userService.CreateAccount(userName, password, email ?? userName);
             this.userService.VerifyAccount(user.VerificationKey);
         }
 

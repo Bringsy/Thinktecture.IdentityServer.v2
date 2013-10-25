@@ -106,5 +106,6 @@ namespace Thinktecture.IdentityServer.Tests
             throw new NotImplementedException();
         }
         #endregion
+
     }
 }

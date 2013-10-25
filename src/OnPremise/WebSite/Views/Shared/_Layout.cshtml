@@ -9,39 +9,31 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
 	<title>@ViewBag.Title</title>
 	<meta name="description" content="Bringsy is a web based peer-to-peer (P2P) delivery service. Users hire a delivery person and send them on errands to retrieve and deliver items.">
 	<meta name="keywords" content="delivery, p2p, app, bringsy">
 	<meta name="robots" content="All" />
-	<meta name="revisit-after" content="7 days" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="revisit-after" content="10000000 days" />
 	@Styles.Render("~/content/styles")
 	@RenderSection("styles", required: false)
-	<link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
 	<script src="@Url.Content("~/Scripts/custom.modernizr.js")"></script>
+	<link href='//fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
 </head>
 <body class="antialiased @ViewBag.BodyCssClass">
-
 	<div id="header">
 		<div class=" contain-to-grid">
 			<nav class="top-bar">
 				<ul class="title-area">
 					<li class="name">
-						<h1><a href="/">Bringsy</a></h1>
+						<a href="/">Bringsy</a>
 					</li>
 					<li class="toggle-topbar menu-icon"><a href="javascript:void(0);"><span>Menu</span></a></li>
 				</ul>
 				<section class="top-bar-section">
 					<ul class="left">
-						<!--<li><a href="/">Home</a></li>
-						<li><a href="/about">About</a></li>
-						<li><a href="/help">Help</a></li>-->
 					</ul>
 					<ul class="right">
-						<!--<li><a href="/">Home</a></li>-->
-
-
-
 						@if (ViewBag.IsSignedIn)
 	  {
 							<li class="has-dropdown">
@@ -73,19 +65,21 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="row full-width">
 		<div class="large-12 columns">
 			<hr />
 			<p>© Bringsy, Inc.</p>
 		</div>
 	</div>
-
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"><\/script>')</script>
 	@Scripts.Render("~/content/scripts")
 	<script type="text/javascript">
-		$(document).foundation();
+		$(function () {
+			$(document).foundation();
+			var validator = $("form").data("validator");
+			if (validator) { validator.settings.onkeyup = false; }
+		});
 	</script>
 	@RenderSection("scripts", required: false)
 </body>
