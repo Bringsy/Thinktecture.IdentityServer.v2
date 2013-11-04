@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using Thinktecture.IdentityModel.Authorization.Mvc;
+using Thinktecture.IdentityServer.Models;
 using Thinktecture.IdentityServer.Repositories;
 using Thinktecture.IdentityServer.TokenService;
 
@@ -80,16 +81,23 @@ namespace Thinktecture.IdentityServer.Protocols.WSFederation
         {
             FederatedAuthentication.SessionAuthenticationModule.SignOut();
 
-            // check for return url
-            if (!string.IsNullOrWhiteSpace(message.Context))
+            var rpRepo = Container.Current.GetExport<IRelyingPartyRepository>();
+            RelyingParty rp = null;
+            if (rpRepo != null && rpRepo.Value.TryGet(message.Reply, out rp))
             {
-                var qs = System.Web.HttpUtility.ParseQueryString(message.Context);
-                if (!string.IsNullOrWhiteSpace(qs["ru"]))
-                    ViewBag.ReturnUrl = qs["ru"];
+                ViewBag.ReturnUrl = rp.ReplyTo.ToString(); 
             }
 
-            if (string.IsNullOrWhiteSpace(ViewBag.ReturnUrl))
-                ViewBag.ReturnUrl = message.Reply;
+            //// check for return url
+            //if (!string.IsNullOrWhiteSpace(message.Context))
+            //{
+            //    var qs = System.Web.HttpUtility.ParseQueryString(message.Context);
+            //    if (!string.IsNullOrWhiteSpace(qs["ru"]))
+            //        ViewBag.ReturnUrl = qs["ru"];
+            //}
+            //
+            //if (string.IsNullOrWhiteSpace(ViewBag.ReturnUrl))
+            //    ViewBag.ReturnUrl = message.Reply;
 
             // check for existing sign in sessions
             var mgr = new SignInSessionsManager(HttpContext, _cookieName);
