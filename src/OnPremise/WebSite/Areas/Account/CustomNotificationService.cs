@@ -61,7 +61,7 @@ namespace Thinktecture.IdentityServer.Web.Areas.Account
 
             var msg = GetAccountCreateFormat();
             var body = DoTokenReplacement(msg, user);
-            DeliverMessage(user, "Account Created", body);
+            DeliverMessage(user, "Please verify your account", body);
         }
 
         protected virtual string GetAccountCreateFormat()
@@ -91,7 +91,7 @@ Thanks!
 
             var msg = GetAccountVerifiedFormat();
             var body = DoTokenReplacement(msg, user);
-            DeliverMessage(user, "Account Verified", body);
+            DeliverMessage(user, String.Format("Welcome to {0}", appInfo.ApplicationName), body);
         }
 
         protected virtual string GetAccountVerifiedFormat()
