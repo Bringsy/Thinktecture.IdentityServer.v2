@@ -1,4 +1,7 @@
-﻿using BrockAllen.MembershipReboot;
+﻿using System;
+using System.IdentityModel.Services;
+using System.Security.Cryptography;
+using BrockAllen.MembershipReboot;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
@@ -51,6 +54,18 @@ namespace Thinktecture.IdentityServer.Web
         {
             Container.Current = new CompositionContainer(new RepositoryExportProvider());
         }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            var error = Server.GetLastError();
+            var cryptoEx = error as CryptographicException;
+            if (cryptoEx != null)
+            {
+                FederatedAuthentication.WSFederationAuthenticationModule.SignOut();
+                Server.ClearError();
+            }
+        }
+
     }
 
     // TODO: move to some propper location
